@@ -1,0 +1,27 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\muxia\Desktop\ECE385_Final_Project\Hollow_Knight\Hollow_Knightsoc.qsys --block-symbol-file --output-directory=C:\Users\muxia\Desktop\ECE385_Final_Project\Hollow_Knight\Hollow_Knightsoc --family="MAX 10" --part=10M50DAF484C7G
+Progress: Loading Hollow_Knight/Hollow_Knightsoc.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\muxia\Desktop\ECE385_Final_Project\Hollow_Knight\Hollow_Knightsoc.qsys --synthesis=VERILOG --output-directory=C:\Users\muxia\Desktop\ECE385_Final_Project\Hollow_Knight\Hollow_Knightsoc\synthesis --family="MAX 10" --part=10M50DAF484C7G
+Progress: Loading Hollow_Knight/Hollow_Knightsoc.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: Hollow_Knightsoc: Generating Hollow_Knightsoc "Hollow_Knightsoc" for QUARTUS_SYNTH
+Info: Hollow_Knightsoc: Done "Hollow_Knightsoc" with 1 modules, 1 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
