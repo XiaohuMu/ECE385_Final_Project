@@ -1,3 +1,5 @@
+
+
 module Hollow_Knight (
 
       ///////// Clocks /////////
@@ -112,7 +114,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	assign VGA_G = Green[7:4];
 	
 	
-	lab62_soc u0 (
+	Hollow_Knightsoc u0 (
 		.clk_clk                           (MAX10_CLK1_50),  //clk.clk
 		.reset_reset_n                     (1'b1),           //reset.reset_n
 		.altpll_0_locked_conduit_export    (),               //altpll_0_locked_conduit.export
@@ -151,7 +153,32 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	 );
 
 
+
 //instantiate a vga_controller, ball, and color_mapper here with the ports.
 
-
+vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
+                                      .Reset(Reset_h),     // reset signal
+												  .hs(VGA_HS),        // Horizontal sync pulse.  Active low
+								              .vs(VGA_VS),        // Vertical sync pulse.  Active low
+												  .pixel_clk(VGA_Clk), // 25 MHz pixel clock output
+												  .blank(blank),     // Blanking interval indicator.  Active low.
+												  .sync(sync),      // Composite Sync signal.  Active low.  We don't use it in this lab,
+												             //   but the video DAC on the DE2 board requires an input for it.
+												  .DrawX(drawxsig),     // horizontal coordinate
+								              .DrawY(drawysig) ); 
+Player player1( .Reset(Reset_h),
+				.frame_clk(VGA_VS),
+				.keycode(keycode),
+            .BallX(ballxsig), 
+				.BallY(ballysig), 
+				.BallS(ballsizesig) );
+				
+color_mapper color1(	.BallX(ballxsig), 
+							.BallY(ballysig), 
+							.DrawX(drawxsig), 
+							.DrawY(drawysig), 
+							.Ball_size(ballsizesig),
+                     .Red(Red), 
+							.Green(Green), 
+							.Blue(Blue) );				
 endmodule
