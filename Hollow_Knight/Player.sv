@@ -1,18 +1,3 @@
-//-------------------------------------------------------------------------
-//    Ball.sv                                                            --
-//    Viral Mehta                                                        --
-//    Spring 2005                                                        --
-//                                                                       --
-//    Modified by Stephen Kempf 03-01-2006                               --
-//                              03-12-2007                               --
-//    Translated by Joe Meng    07-07-2013                               --
-//    Fall 2014 Distribution                                             --
-//                                                                       --
-//    For use with ECE 298 Lab 7                                         --
-//    UIUC ECE Department                                                --
-//-------------------------------------------------------------------------
-
-
 module  Player ( input Reset, frame_clk,
 					input [7:0] keycode,
                output [9:0]  BallX, BallY, BallS );
@@ -20,7 +5,7 @@ module  Player ( input Reset, frame_clk,
     logic [9:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion, Ball_Size;
 	 
     parameter [9:0] Ball_X_Center=320;  // Center position on the X axis
-    parameter [9:0] Ball_Y_Center=240;  // Center position on the Y axis
+    parameter [9:0] Ball_Y_Center=400;  // Center position on the Y axis
     parameter [9:0] Ball_X_Min=0;       // Leftmost point on the X axis
     parameter [9:0] Ball_X_Max=639;     // Rightmost point on the X axis
     parameter [9:0] Ball_Y_Min=0;       // Topmost point on the Y axis
@@ -43,16 +28,16 @@ module  Player ( input Reset, frame_clk,
         else 
         begin 
 				 if ( (Ball_Y_Pos + Ball_Size) >= Ball_Y_Max )  // Ball is at the bottom edge, BOUNCE!
-					  Ball_Y_Motion <= (~ (Ball_Y_Step) + 1'b1);  // 2's complement.
+					  Ball_Y_Motion <= 10'd470;  // 2's complement.
 					  
 				 else if ( (Ball_Y_Pos - Ball_Size) <= Ball_Y_Min )  // Ball is at the top edge, BOUNCE!
-					  Ball_Y_Motion <= Ball_Y_Step;
+					  Ball_Y_Motion <= 10'd0;
 					  
 				  else if ( (Ball_X_Pos + Ball_Size) >= Ball_X_Max )  // Ball is at the Right edge, BOUNCE!
-					  Ball_X_Motion <= (~ (Ball_X_Step) + 1'b1);  // 2's complement.
+					  Ball_X_Motion <= 10'd630;  // 2's complement.
 					  
 				 else if ( (Ball_X_Pos - Ball_Size) <= Ball_X_Min )  // Ball is at the Left edge, BOUNCE!
-					  Ball_X_Motion <= Ball_X_Step;
+					  Ball_X_Motion <= 10'd0;
 					  
 				 else 
 					  //Ball_Y_Motion <= Ball_Y_Motion;  // Ball is somewhere in the middle, don't bounce, just keep moving
@@ -61,25 +46,25 @@ module  Player ( input Reset, frame_clk,
 				 case (keycode)
 					8'h04 : begin
 
-								Ball_X_Motion <= -1;//A
+								Ball_X_Motion <= -1.5;//A
 								Ball_Y_Motion<= 0;
 							  end
 					        
 					8'h07 : begin
 								
-					        Ball_X_Motion <= 1;//D
+					        Ball_X_Motion <= 1.5;//D
 							  Ball_Y_Motion <= 0;
 							  end
 
 							  
 					8'h16 : begin
 
-					        Ball_Y_Motion <= 1;//S
+					        Ball_Y_Motion <= 1.5;//S
 							  Ball_X_Motion <= 0;
 							 end
 							  
 					8'h1A : begin
-					        Ball_Y_Motion <= -1;//W
+					        Ball_Y_Motion <= -1.5;//W
 							  Ball_X_Motion <= 0;
 							 end	  
 					default: ;
