@@ -143,6 +143,10 @@ int main() {
 	MAX3421E_init();
 	printf("initializing USB...\n");
 	USB_init();
+	//textVGATest();
+	//textVGAColorScreenSaver();
+	paletteTest();
+	//textVGAColorScreenSaver_single();
 	while (1) {
 		printf(".");
 		MAX3421E_Task();

@@ -109,9 +109,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	assign {Reset_h}=~ (KEY[0]);
 
 	//Our A/D converter is only 12 bit
-	assign VGA_R = Red[7:4];
-	assign VGA_B = Blue[7:4];
-	assign VGA_G = Green[7:4];
+
 	
 	
 	Hollow_Knightsoc u0 (
@@ -148,24 +146,30 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 		//LEDs and HEX
 		.hex_digits_export({hex_num_4, hex_num_3, hex_num_1, hex_num_0}),
 		.leds_export({hundreds, signs, LEDR}),
-		.keycode_export(keycode)
+		.keycode_export(keycode),
 		
+		.vga_port_red(VGA_B),                   //                vga_port.Blue
+		.vga_port_green(VGA_G),                
+		.vga_port_blue(VGA_R),             
+		.vga_port_hs(VGA_HS),                    
+		.vga_port_vs(VGA_VS)   
 	 );
 
 
 
 //instantiate a vga_controller, ball, and color_mapper here with the ports.
+//VGA controller is instantiated in vga_text_avl_interface
+//vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
+//                                      .Reset(Reset_h),     // reset signal
+//												  .hs(VGA_HS),        // Horizontal sync pulse.  Active low
+//								              .vs(VGA_VS),        // Vertical sync pulse.  Active low
+//												  .pixel_clk(VGA_Clk), // 25 MHz pixel clock output
+//												  .blank(blank),     // Blanking interval indicator.  Active low.
+//												  .sync(sync),      // Composite Sync signal.  Active low.  We don't use it in this lab,
+//												             //   but the video DAC on the DE2 board requires an input for it.
+//												  .DrawX(drawxsig),     // horizontal coordinate
+//								              .DrawY(drawysig) ); 
 
-vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
-                                      .Reset(Reset_h),     // reset signal
-												  .hs(VGA_HS),        // Horizontal sync pulse.  Active low
-								              .vs(VGA_VS),        // Vertical sync pulse.  Active low
-												  .pixel_clk(VGA_Clk), // 25 MHz pixel clock output
-												  .blank(blank),     // Blanking interval indicator.  Active low.
-												  .sync(sync),      // Composite Sync signal.  Active low.  We don't use it in this lab,
-												             //   but the video DAC on the DE2 board requires an input for it.
-												  .DrawX(drawxsig),     // horizontal coordinate
-								              .DrawY(drawysig) ); 
 Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
@@ -173,7 +177,7 @@ Player player1( .Reset(Reset_h),
 				.BallY(ballysig), 
 				.BallS(ballsizesig) );
 				
-color_mapper color1(	.BallX(ballxsig), 
+player_mapper color1(	.BallX(ballxsig), 
 							.BallY(ballysig), 
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 

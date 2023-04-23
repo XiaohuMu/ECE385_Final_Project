@@ -1,18 +1,18 @@
-Fitter Status : Successful - Thu Apr 20 19:52:45 2023
+Fitter Status : Successful - Fri Apr 21 01:45:03 2023
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : Hollow_Knight
 Top-level Entity Name : Hollow_Knight
 Family : MAX 10
 Device : 10M50DAF484C7G
 Timing Models : Final
-Total logic elements : 4,019 / 49,760 ( 8 % )
-    Total combinational functions : 3,420 / 49,760 ( 7 % )
-    Dedicated logic registers : 2,457 / 49,760 ( 5 % )
-Total registers : 2526
+Total logic elements : 5,510 / 49,760 ( 11 % )
+    Total combinational functions : 4,857 / 49,760 ( 10 % )
+    Dedicated logic registers : 2,747 / 49,760 ( 6 % )
+Total registers : 2816
 Total pins : 141 / 360 ( 39 % )
 Total virtual pins : 0
-Total memory bits : 11,392 / 1,677,312 ( < 1 % )
-Embedded Multiplier 9-bit elements : 4 / 288 ( 1 % )
+Total memory bits : 49,792 / 1,677,312 ( 3 % )
+Embedded Multiplier 9-bit elements : 0 / 288 ( 0 % )
 Total PLLs : 1 / 4 ( 25 % )
 UFM blocks : 0 / 1 ( 0 % )
 ADC blocks : 0 / 2 ( 0 % )

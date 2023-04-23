@@ -23,7 +23,12 @@
 			spi0_SS_n                      : out   std_logic;                                        -- SS_n
 			usb_gpx_export                 : in    std_logic                     := 'X';             -- export
 			usb_irq_export                 : in    std_logic                     := 'X';             -- export
-			usb_rst_export                 : out   std_logic                                         -- export
+			usb_rst_export                 : out   std_logic;                                        -- export
+			vga_port_blue                  : out   std_logic_vector(3 downto 0);                     -- blue
+			vga_port_green                 : out   std_logic_vector(3 downto 0);                     -- green
+			vga_port_red                   : out   std_logic_vector(3 downto 0);                     -- red
+			vga_port_hs                    : out   std_logic;                                        -- hs
+			vga_port_vs                    : out   std_logic                                         -- vs
 		);
 	end component Hollow_Knightsoc;
 
@@ -52,6 +57,11 @@
 			spi0_SS_n                      => CONNECTED_TO_spi0_SS_n,                      --                        .SS_n
 			usb_gpx_export                 => CONNECTED_TO_usb_gpx_export,                 --                 usb_gpx.export
 			usb_irq_export                 => CONNECTED_TO_usb_irq_export,                 --                 usb_irq.export
-			usb_rst_export                 => CONNECTED_TO_usb_rst_export                  --                 usb_rst.export
+			usb_rst_export                 => CONNECTED_TO_usb_rst_export,                 --                 usb_rst.export
+			vga_port_blue                  => CONNECTED_TO_vga_port_blue,                  --                vga_port.blue
+			vga_port_green                 => CONNECTED_TO_vga_port_green,                 --                        .green
+			vga_port_red                   => CONNECTED_TO_vga_port_red,                   --                        .red
+			vga_port_hs                    => CONNECTED_TO_vga_port_hs,                    --                        .hs
+			vga_port_vs                    => CONNECTED_TO_vga_port_vs                     --                        .vs
 		);
 

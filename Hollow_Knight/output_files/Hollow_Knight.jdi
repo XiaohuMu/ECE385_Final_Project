@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="91100d6e6060bacc0e37"/>
+    <hash md5_digest_80b="5126c73f938128b070fa"/>
   </project>
   <file_info>
     <file device="10M50DAF484C7G" path="Hollow_Knight.sof" usercode="0xFFFFFFFF"/>
@@ -139,7 +139,7 @@
   <sld_infos>
     <sld_info hpath="Hollow_Knightsoc:u0" name="u0">
       <assignment_values>
-        <assignment_value text="QSYS_NAME Hollow_Knightsoc HAS_SOPCINFO 1 GENERATION_ID 1682030609"/>
+        <assignment_value text="QSYS_NAME Hollow_Knightsoc HAS_SOPCINFO 1 GENERATION_ID 1682058972"/>
       </assignment_values>
       <parameters/>
     </sld_info>

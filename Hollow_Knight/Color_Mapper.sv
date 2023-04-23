@@ -1,7 +1,7 @@
 
 
 
-module  color_mapper ( input        [9:0] BallX, BallY, DrawX, DrawY, Ball_size,
+module  player_mapper ( input        [9:0] BallX, BallY, DrawX, DrawY, Ball_size,
                        output logic [7:0]  Red, Green, Blue );
     
     logic ball_on;
