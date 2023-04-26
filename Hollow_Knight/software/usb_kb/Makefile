@@ -146,7 +146,6 @@ C_SRCS += main.c
 C_SRCS += usb_kb/HID.c
 C_SRCS += usb_kb/MAX3421E.c
 C_SRCS += usb_kb/transfer.c
-C_SRCS += text_mode_vga_color.c
 CXX_SRCS :=
 ASM_SRCS :=
 
@@ -181,7 +180,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := C:/Users/muxia/desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/software/usb_kb_bsp/
+BSP_ROOT_DIR := C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=
@@ -192,7 +191,7 @@ APP_LIBRARY_NAMES :=
 BUILD_PRE_PROCESS :=
 BUILD_POST_PROCESS :=
 
-QUARTUS_PROJECT_DIR := C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/
+QUARTUS_PROJECT_DIR := C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/
 
 
 #END GENERATED

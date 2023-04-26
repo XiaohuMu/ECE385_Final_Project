@@ -1,21 +1,9 @@
-01:40:54 **** Incremental Build of configuration Nios II for project usb_kb ****
+17:34:44 **** Incremental Build of configuration Nios II for project usb_kb ****
 make all 
-Info: Building C:/Users/muxia/desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/software/usb_kb_bsp/
-C:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C C:/Users/muxia/desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/software/usb_kb_bsp/
-Makefile not up to date.
-../../../../../../../ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/settings.bsp has been modified since the BSP Makefile was generated.
+Info: Building C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
+C:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
+[BSP build complete]
+[usb_kb build complete]
 
-Generate the BSP to update the Makefile, and then build again.
-
-To generate from Eclipse:
- 1. Right-click the BSP project.
- 2. In the Nios II Menu, click Generate BSP.
-
-To generate from the command line:
- nios2-bsp-generate-files --settings=<settings file> --bsp-dir=<target bsp files directory>
-
-make[1]: *** [makefile] Error 1
-make: *** [C:/Users/muxia/desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/software/usb_kb_bsp/-recurs-make-lib] Error 2
-
-01:40:55 Build Finished (took 1s.125ms)
+17:34:45 Build Finished (took 1s.509ms)
 

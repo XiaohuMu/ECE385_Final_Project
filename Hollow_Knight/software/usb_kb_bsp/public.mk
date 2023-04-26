@@ -86,7 +86,7 @@ ACDS_VERSION := 18.1
 
 # Qsys--generated SOPCINFO file. Required for resolving node instance ID's with 
 # design component names. 
-SOPCINFO_FILE := C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/lab62_soc.sopcinfo
+SOPCINFO_FILE := C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
 
 # Big-Endian operation. 
 # setting BIG_ENDIAN is false
@@ -139,8 +139,8 @@ QSYS := 1
 ELF_PATCH_FLAG += --qsys true
 
 # Design Name 
-# setting SOPC_NAME is lab62_soc
-SOPC_NAME := lab62_soc
+# setting SOPC_NAME is Hollow_Knightsoc
+SOPC_NAME := Hollow_Knightsoc
 
 # SopcBuilder Simulation Enabled 
 # setting SOPC_SIMULATION_ENABLED is false
@@ -157,9 +157,9 @@ SOPC_SYSID_FLAG += --sidp=0x200
 ELF_PATCH_FLAG  += --sidp 0x200
 
 # The SOPC Timestamp 
-# setting SOPC_TIMESTAMP is 1680555973
-SOPC_SYSID_FLAG += --timestamp=1680555973
-ELF_PATCH_FLAG  += --timestamp 1680555973
+# setting SOPC_TIMESTAMP is 1682461977
+SOPC_SYSID_FLAG += --timestamp=1682461977
+ELF_PATCH_FLAG  += --timestamp 1682461977
 
 # Enable JTAG UART driver to recover when host is inactive causing buffer to 
 # full without returning error. Printf will not fail with this recovery. none 

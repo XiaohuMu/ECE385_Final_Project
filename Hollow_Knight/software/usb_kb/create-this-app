@@ -3,8 +3,8 @@
 # This script creates the blank_project application in this directory.
 
 
-BSP_DIR=C:/Users/muxia/desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/software/usb_kb_bsp/
-QUARTUS_PROJECT_DIR=C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/
+BSP_DIR=C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
+QUARTUS_PROJECT_DIR=C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/
 NIOS2_APP_GEN_ARGS="--elf-name usb_kb.elf --no-src --set OBJDUMP_INCLUDE_SOURCE 1"
 
 

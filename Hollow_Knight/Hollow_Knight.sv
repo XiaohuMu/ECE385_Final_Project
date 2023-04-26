@@ -38,9 +38,9 @@ module Hollow_Knight (
       ///////// VGA /////////
       output             VGA_HS,
       output             VGA_VS,
-      output   [ 3: 0]   VGA_R,
-      output   [ 3: 0]   VGA_G,
-      output   [ 3: 0]   VGA_B,
+      output   [ 7: 0]   VGA_R,
+      output   [ 7: 0]   VGA_G,
+      output   [ 7: 0]   VGA_B,
 
 
       ///////// ARDUINO /////////
@@ -110,7 +110,9 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 
 	//Our A/D converter is only 12 bit
 
-	
+//	assign VGA_R = Red[7:4];
+//	assign VGA_B = Blue[7:4];
+//	assign VGA_G = Green[7:4];
 	
 	Hollow_Knightsoc u0 (
 		.clk_clk                           (MAX10_CLK1_50),  //clk.clk
@@ -146,43 +148,45 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 		//LEDs and HEX
 		.hex_digits_export({hex_num_4, hex_num_3, hex_num_1, hex_num_0}),
 		.leds_export({hundreds, signs, LEDR}),
-		.keycode_export(keycode),
+		.keycode_export(keycode)
 		
-		.vga_port_red(VGA_B),                   //                vga_port.Blue
-		.vga_port_green(VGA_G),                
-		.vga_port_blue(VGA_R),             
-		.vga_port_hs(VGA_HS),                    
-		.vga_port_vs(VGA_VS)   
+//		.vga_port_red(VGA_B),                   //                vga_port.Blue
+//		.vga_port_green(VGA_G),                
+//		.vga_port_blue(VGA_R),             
+//		.vga_port_hs(VGA_HS),                    
+//		.vga_port_vs(VGA_VS)   
 	 );
 
 
 
 //instantiate a vga_controller, ball, and color_mapper here with the ports.
-//VGA controller is instantiated in vga_text_avl_interface
-//vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
-//                                      .Reset(Reset_h),     // reset signal
-//												  .hs(VGA_HS),        // Horizontal sync pulse.  Active low
-//								              .vs(VGA_VS),        // Vertical sync pulse.  Active low
-//												  .pixel_clk(VGA_Clk), // 25 MHz pixel clock output
-//												  .blank(blank),     // Blanking interval indicator.  Active low.
-//												  .sync(sync),      // Composite Sync signal.  Active low.  We don't use it in this lab,
-//												             //   but the video DAC on the DE2 board requires an input for it.
-//												  .DrawX(drawxsig),     // horizontal coordinate
-//								              .DrawY(drawysig) ); 
 
+vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
+                                      .Reset(Reset_h),     // reset signal
+												  .hs(VGA_HS),        // Horizontal sync pulse.  Active low
+								              .vs(VGA_VS),        // Vertical sync pulse.  Active low
+												  .pixel_clk(VGA_Clk), // 25 MHz pixel clock output
+												  .blank(blank),     // Blanking interval indicator.  Active low.
+												  .sync(sync),      // Composite Sync signal.  Active low.  We don't use it in this lab,
+												             //   but the video DAC on the DE2 board requires an input for it.
+												  .DrawX(drawxsig),     // horizontal coordinate
+								              .DrawY(drawysig) ); 
 Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
             .BallX(ballxsig), 
 				.BallY(ballysig), 
 				.BallS(ballsizesig) );
-				
-player_mapper color1(	.BallX(ballxsig), 
+
+
+player_mapper color1(.vga_clk(VGA_Clk),	
+							.BallX(ballxsig), 
 							.BallY(ballysig), 
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
 							.Ball_size(ballsizesig),
-                     .Red(Red), 
-							.Green(Green), 
-							.Blue(Blue) );				
+							.blank(blank),
+                     .Red(VGA_R), 
+							.Green(VGA_G), 
+							.Blue(VGA_B) );				
 endmodule

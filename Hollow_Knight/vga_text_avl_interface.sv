@@ -32,16 +32,16 @@ byte_enabled_true_dual_port_ram vram(	.addr1(AVL_ADDR[10:0]), 							.addr2(lett
 													.we1(AVL_WRITE&AVL_CS&(~AVL_ADDR[11])), 		.we2('0), .clk(CLK), 
 													.data_out1(VRAMout), 							.data_out2(letter_code_word));
 
-logic [31:0] Palette_REG   [16];
+logic [31:0] Palette_REG   [16];//16 color in total
 logic [31:0] VRAMout;
 													
-
+//
 always_ff @(posedge CLK) begin
 
-	if (AVL_CS & AVL_ADDR[11])begin
+	if (AVL_CS & AVL_ADDR[11])begin//Determine whether it is palette reg depending on 12th bit
 
 		if(AVL_WRITE == 1'b1 && AVL_READ == 1'b0)  begin
-			Palette_REG[AVL_ADDR[3:0]] = {'0, AVL_WRITEDATA[15:0]};
+			Palette_REG[AVL_ADDR[3:0]] = {'0, AVL_WRITEDATA[15:0]};//16 palette register
 
 		end
 		
@@ -49,33 +49,33 @@ always_ff @(posedge CLK) begin
 end
 
 always_comb begin
-	if (AVL_ADDR[11] == 1'b1)		AVL_READDATA = Palette_REG[AVL_ADDR[3:0]];
-	else									AVL_READDATA = VRAMout;					
+	if (AVL_ADDR[11] == 1'b1)		AVL_READDATA = Palette_REG[AVL_ADDR[3:0]];//READDATA to NIOSII
+	else									AVL_READDATA = VRAMout;	//80*30				
 end
 
 //handle drawing (may either be combinational or sequential - or both).
 logic pixel_clk, blank, sync, pixel;
 logic [9:0] DrawX, DrawY;
-logic [10:0] glyph_line_number;
-logic [7:0] glyph_line_data;
+logic [10:0] glyph_line_number;//font rom address
+logic [7:0] glyph_line_data;//font rom data
+
 	
 	
-logic [10:0] letter_reg;
-//logic [9:0] letter_reg_buffer;
-logic	letter_positionREG;
-logic [1:0][15:0] letter_code_word; //added!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-logic [15:0] letter_code;
+logic [10:0] letter_reg;//address of register
+logic	letter_positionREG;//1st letter or second letter
+logic [1:0][15:0] letter_code_word; //32 bit two letter code
+logic [15:0] letter_code;//VRAM 
 
 vga_controller vga_controller_0 (.Clk(CLK), .Reset(RESET), .hs, .vs, .pixel_clk, .blank, .sync, .DrawX, .DrawY  );
 font_rom	font_rom_0 (.addr(glyph_line_number), .data(glyph_line_data));
+	
 
 logic [31:0] control_register;
 
 always_comb  begin
 	
 	letter_reg = (DrawX >> 4) +  (DrawY >> 4) * 40;	
-	letter_positionREG = DrawX[3]; 
-	//letter_code =  LOCAL_REG[letter_reg][letter_positionREG];
+	letter_positionREG = DrawX[3]; //
 	letter_code = letter_code_word[letter_positionREG];
 
 	glyph_line_number = {letter_code[14:8], DrawY[3:0]};
@@ -93,7 +93,7 @@ end
 
 always_ff @(posedge pixel_clk)	begin 
 
-	if(blank)	begin
+	if(blank)	begin //13-24 foreground
 		if((glyph_line_data[7-DrawX[2:0]])^letter_code[15] == 1'b1) begin
 		
 			red <= control_register[24:21];
@@ -101,7 +101,7 @@ always_ff @(posedge pixel_clk)	begin
 			blue <= control_register[16:13];
 		end
 		
-		else	begin
+		else	begin // 1-12 backgournd
 			
 			red <= control_register[12:9];
 			green <= control_register[8:5];

@@ -1,10 +1,10 @@
 /*
  * system.h - SOPC Builder system and BSP software package information
  *
- * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'lab62_soc'
- * SOPC Builder design path: C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/lab62_soc.sopcinfo
+ * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'Hollow_Knightsoc'
+ * SOPC Builder design path: C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
  *
- * Generated: Thu Apr 20 17:59:01 CDT 2023
+ * Generated: Tue Apr 25 17:34:19 CDT 2023
  */
 
 /*
@@ -177,7 +177,7 @@
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
 #define ALT_STDOUT_TYPE "altera_avalon_jtag_uart"
-#define ALT_SYSTEM_NAME "lab62_soc"
+#define ALT_SYSTEM_NAME "Hollow_Knightsoc"
 
 
 /*
@@ -188,7 +188,7 @@
 #define ALT_INCLUDE_INSTRUCTION_RELATED_EXCEPTION_API
 #define ALT_MAX_FD 32
 #define ALT_SYS_CLK TIMER_0
-#define ALT_TIMESTAMP_CLK TIMER_0
+#define ALT_TIMESTAMP_CLK none
 
 
 /*
@@ -356,7 +356,7 @@
 #define ONCHIP_MEMORY2_0_CONTENTS_INFO ""
 #define ONCHIP_MEMORY2_0_DUAL_PORT 0
 #define ONCHIP_MEMORY2_0_GUI_RAM_BLOCK_TYPE "AUTO"
-#define ONCHIP_MEMORY2_0_INIT_CONTENTS_FILE "lab62_soc_onchip_memory2_0"
+#define ONCHIP_MEMORY2_0_INIT_CONTENTS_FILE "Hollow_Knightsoc_onchip_memory2_0"
 #define ONCHIP_MEMORY2_0_INIT_MEM_CONTENT 1
 #define ONCHIP_MEMORY2_0_INSTANCE_ID "NONE"
 #define ONCHIP_MEMORY2_0_IRQ -1
@@ -469,7 +469,7 @@
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1680555973
+#define SYSID_QSYS_0_TIMESTAMP 1682461977
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

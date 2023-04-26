@@ -101,7 +101,7 @@ ACDS_VERSION := 18.1
 # BUILD_NUMBER: 625
 
 SETTINGS_FILE := settings.bsp
-SOPC_FILE := C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/lab62_soc.sopcinfo
+SOPC_FILE := C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
 
 #-------------------------------------------------------------------------------
 #                             TOOL & COMMAND DEFINITIONS

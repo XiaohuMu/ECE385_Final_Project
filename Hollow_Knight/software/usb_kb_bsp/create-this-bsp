@@ -4,8 +4,8 @@
 
 BSP_TYPE=hal
 BSP_DIR=.
-SOPC_DIR=C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/
-SOPC_FILE=C:/Users/muxia/Desktop/UIUC/2023_SPRING/ECE385/ECE385/Lab_6/lab62_soc.sopcinfo
+SOPC_DIR=C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/
+SOPC_FILE=C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
 NIOS2_BSP_ARGS=""
 CPU_NAME=
 

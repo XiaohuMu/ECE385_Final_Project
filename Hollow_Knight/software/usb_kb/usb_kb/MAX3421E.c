@@ -31,17 +31,9 @@ void MAXreg_wr(BYTE reg, BYTE val) {
 	//psuedocode:
 	//select MAX3421E (may not be necessary if you are using SPI peripheral)
 	//write reg + 2 via SPI
-	BYTE  send = reg + 2;
-
-	BYTE all[2] = {send, val};
-	
-	int ret = alt_avalon_spi_command(SPI_0_BASE, 0, 2, all, 0, 0, 0);
 	//write val via SPI
 	//read return code from SPI peripheral (see Intel documentation) 
 	//if return code < 0 print an error
-	if(ret < 0){
-		printf("error in MAXreg_wr");
-	}
 	//deselect MAX3421E (may not be necessary if you are using SPI peripheral)
 }
 //multiple-byte write
@@ -50,22 +42,11 @@ BYTE* MAXbytes_wr(BYTE reg, BYTE nbytes, BYTE* data) {
 	//psuedocode:
 	//select MAX3421E (may not be necessary if you are using SPI peripheral)
 	//write reg + 2 via SPI
-	BYTE all[nbytes + 1];
-
 	//write data[n] via SPI, where n goes from 0 to nbytes-1
-		for(int i = 0; i < nbytes ; i++){
-		all[i+1] = data[i];
-	}
-	BYTE send = reg + 2;
-	all[0] = send;
 	//read return code from SPI peripheral (see Intel documentation) 
-	int ret = alt_avalon_spi_command(SPI_0_BASE, 0, nbytes+1, all, 0, 0, 0); 
 	//if return code < 0  print an error
-	if(ret < 0){
-		printf("error in MAXbytes_wr");
-	}
 	//deselect MAX3421E (may not be necessary if you are using SPI peripheral)
-	return (data + nbytes);
+	//return (data + nbytes);
 }
 
 //reads register from MAX3421E via SPI
@@ -75,14 +56,9 @@ BYTE MAXreg_rd(BYTE reg) {
 	//write reg via SPI
 	//read val via SPI
 	//read return code from SPI peripheral (see Intel documentation)
-	BYTE val;
-	int ret = alt_avalon_spi_command(SPI_0_BASE, 0, 1, &reg, 1, &val, 0); 
 	//if return code < 0 print an error
-	if(ret < 0){
-		printf("error in MAXreg_rd");
-	}
 	//deselect MAX3421E (may not be necessary if you are using SPI peripheral)
-	return val;
+	//return val
 }
 //multiple-byte write
 //returns a pointer to a memory position after last written
@@ -91,14 +67,10 @@ BYTE* MAXbytes_rd(BYTE reg, BYTE nbytes, BYTE* data) {
 	//select MAX3421E (may not be necessary if you are using SPI peripheral)
 	//write reg via SPI
 	//read data[n] from SPI, where n goes from 0 to nbytes-1
-	int ret = alt_avalon_spi_command(SPI_0_BASE, 0, 1, &reg, nbytes, data, 0);
 	//read return code from SPI peripheral (see Intel documentation)
 	//if return code < 0 print an error
-	if(ret < 0){
-		printf("error in MAXbytes_rd");
-	}
 	//deselect MAX3421E (may not be necessary if you are using SPI peripheral)
-	return (data + nbytes);
+	//return (data + nbytes);
 }
 /* reset MAX3421E using chip reset bit. SPI configuration is not affected   */
 void MAX3421E_reset(void) {
