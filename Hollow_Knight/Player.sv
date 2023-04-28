@@ -1,8 +1,8 @@
 module  Player ( input Reset, frame_clk,
 					input [7:0] keycode,
-               output [9:0]  BallX, BallY, BallS );
+               output [9:0]  BallX, BallY, BallSX, BallSY );
     
-    logic [9:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion, Ball_Size;
+    logic [9:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion, Ball_SizeX, Ball_SizeY;
 	 
     parameter [9:0] Ball_X_Center=320;  // Center position on the X axis
     parameter [9:0] Ball_Y_Center=400;  // Center position on the Y axis
@@ -13,7 +13,9 @@ module  Player ( input Reset, frame_clk,
     parameter [9:0] Ball_X_Step=1;      // Step size on the X axis
     parameter [9:0] Ball_Y_Step=1;      // Step size on the Y axis
 
-    assign Ball_Size = 4;  // assigns the value 4 as a 10-digit binary number, ie "0000000100"
+    assign Ball_SizeX = 28;  
+	 assign Ball_SizeY = 62;  
+	 // assigns the value 4 as a 10-digit binary number, ie "0000000100"
    
     always_ff @ (posedge Reset or posedge frame_clk )
     begin: Move_Ball
@@ -27,16 +29,16 @@ module  Player ( input Reset, frame_clk,
            
         else 
         begin 
-				 if ( (Ball_Y_Pos + Ball_Size) >= Ball_Y_Max )  // Ball is at the bottom edge, BOUNCE!
+				 if ( (Ball_Y_Pos + Ball_SizeY) >= Ball_Y_Max )  // Ball is at the bottom edge, BOUNCE!
 					  Ball_Y_Motion <= 10'd470;  // 2's complement.
 					  
-				 else if ( (Ball_Y_Pos - Ball_Size) <= Ball_Y_Min )  // Ball is at the top edge, BOUNCE!
+				 else if ( (Ball_Y_Pos - Ball_SizeY) <= Ball_Y_Min )  // Ball is at the top edge, BOUNCE!
 					  Ball_Y_Motion <= 10'd0;
 					  
-				  else if ( (Ball_X_Pos + Ball_Size) >= Ball_X_Max )  // Ball is at the Right edge, BOUNCE!
+				  else if ( (Ball_X_Pos + Ball_SizeX) >= Ball_X_Max )  // Ball is at the Right edge, BOUNCE!
 					  Ball_X_Motion <= 10'd630;  // 2's complement.
 					  
-				 else if ( (Ball_X_Pos - Ball_Size) <= Ball_X_Min )  // Ball is at the Left edge, BOUNCE!
+				 else if ( (Ball_X_Pos - Ball_SizeX) <= Ball_X_Min )  // Ball is at the Left edge, BOUNCE!
 					  Ball_X_Motion <= 10'd0;
 					  
 				 else 
@@ -91,7 +93,8 @@ module  Player ( input Reset, frame_clk,
    
     assign BallY = Ball_Y_Pos;
    
-    assign BallS = Ball_Size;
+    assign BallSX = Ball_SizeX;
+	 assign BallSY = Ball_SizeY;
     
 
 endmodule

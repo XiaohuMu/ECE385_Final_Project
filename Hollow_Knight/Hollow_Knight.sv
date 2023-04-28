@@ -62,7 +62,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [3:0] hex_num_4, hex_num_3, hex_num_1, hex_num_0; //4 bit input hex digits
 	logic [1:0] signs;
 	logic [1:0] hundreds;
-	logic [9:0] drawxsig, drawysig, ballxsig, ballysig, ballsizesig;
+	logic [9:0] drawxsig, drawysig, ballxsig, ballysig, ballsizesigx, ballsizesigy;
 	logic [7:0] Red, Blue, Green;
 	logic [7:0] keycode;
 
@@ -110,9 +110,9 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 
 	//Our A/D converter is only 12 bit
 
-//	assign VGA_R = Red[7:4];
-//	assign VGA_B = Blue[7:4];
-//	assign VGA_G = Green[7:4];
+	assign VGA_R = Red[7:4];
+	assign VGA_B = Blue[7:4];
+	assign VGA_G = Green[7:4];
 	
 	Hollow_Knightsoc u0 (
 		.clk_clk                           (MAX10_CLK1_50),  //clk.clk
@@ -176,17 +176,19 @@ Player player1( .Reset(Reset_h),
 				.keycode(keycode),
             .BallX(ballxsig), 
 				.BallY(ballysig), 
-				.BallS(ballsizesig) );
+				.BallSX(ballsizesigx),
+				.BallSY(ballsizesigy));
 
-
+	
 player_mapper color1(.vga_clk(VGA_Clk),	
 							.BallX(ballxsig), 
 							.BallY(ballysig), 
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
-							.Ball_size(ballsizesig),
+							.Ball_sizeX(ballsizesigx),
+							.Ball_sizeY(ballsizesigy),
 							.blank(blank),
-                     .Red(VGA_R), 
-							.Green(VGA_G), 
-							.Blue(VGA_B) );				
+                     .Red(Red), 
+							.Green(Green), 
+							.Blue(Blue) );				
 endmodule

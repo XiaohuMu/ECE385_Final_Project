@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'Hollow_Knightsoc'
  * SOPC Builder design path: C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
  *
- * Generated: Tue Apr 25 17:23:37 CDT 2023
+ * Generated: Thu Apr 27 16:04:42 CDT 2023
  */
 
 /*

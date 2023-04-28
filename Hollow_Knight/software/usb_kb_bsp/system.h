@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'Hollow_Knightsoc'
  * SOPC Builder design path: C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/Hollow_Knightsoc.sopcinfo
  *
- * Generated: Tue Apr 25 17:34:19 CDT 2023
+ * Generated: Thu Apr 27 19:49:17 CDT 2023
  */
 
 /*
@@ -469,7 +469,7 @@
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1682461977
+#define SYSID_QSYS_0_TIMESTAMP 1682639134
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

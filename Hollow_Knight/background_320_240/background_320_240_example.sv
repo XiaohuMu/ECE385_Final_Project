@@ -5,10 +5,11 @@ module background_320_240_example (
 	output logic [3:0] red, green, blue
 );
 
-
 logic [16:0] rom_address;
 logic [3:0] rom_q;
+
 logic [3:0] palette_red, palette_green, palette_blue;
+
 logic negedge_vga_clk;
 
 // read from ROM on negedge, set pixel on posedge
