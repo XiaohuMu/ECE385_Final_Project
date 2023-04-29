@@ -149,12 +149,6 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 		.hex_digits_export({hex_num_4, hex_num_3, hex_num_1, hex_num_0}),
 		.leds_export({hundreds, signs, LEDR}),
 		.keycode_export(keycode)
-		
-//		.vga_port_red(VGA_B),                   //                vga_port.Blue
-//		.vga_port_green(VGA_G),                
-//		.vga_port_blue(VGA_R),             
-//		.vga_port_hs(VGA_HS),                    
-//		.vga_port_vs(VGA_VS)   
 	 );
 
 
