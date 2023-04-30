@@ -1,0 +1,123 @@
+module  Player1 ( input Reset, frame_clk,
+					input [7:0] keycode,
+               output [9:0]  BallX, BallY, BallSX, BallSY );
+    
+    logic [9:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion, Ball_SizeX, Ball_SizeY;
+	 logic jumping, falling;
+	 parameter [9:0] JUMP_HEIGHT = 340;
+	 
+    parameter [9:0] Ball_X_Center=320;  // Center position on the X axis
+    parameter [9:0] Ball_Y_Center=377;  // Center position on the Y axis
+    parameter [9:0] Ball_X_Min=31;       // Leftmost point on the X axis
+    parameter [9:0] Ball_X_Max=607;     // Rightmost point on the X axis
+    parameter [9:0] Ball_Y_Min=17;       // Topmost point on the Y axis
+    parameter [9:0] Ball_Y_Max=479;     // Bottommost point on the Y axis
+    parameter [9:0] Ball_X_Step=1;      // Step size on the X axis
+    parameter [9:0] Ball_Y_Step=1;      // Step size on the Y axis
+
+    assign Ball_SizeX = 28;  
+	 assign Ball_SizeY = 62;  
+	 // assigns the value 4 as a 10-digit binary number, ie "0000000100"
+   
+    always_ff @ (posedge Reset or posedge frame_clk )
+    begin: Move_Ball
+        if (Reset)  // Asynchronous Reset
+        begin 
+            Ball_Y_Motion <= 10'd0; //Ball_Y_Step;
+				Ball_X_Motion <= 10'd0; //Ball_X_Step;
+				Ball_Y_Pos <= Ball_Y_Center;
+				Ball_X_Pos <= Ball_X_Center;
+        end
+           
+        else 
+        begin 
+			//Set bound
+				 if ( (Ball_Y_Pos + Ball_SizeY/2) > Ball_Y_Max )  // Bottom Edge
+						Ball_Y_Pos = Ball_Y_Max-Ball_SizeY/2;	
+				 if ( (Ball_Y_Pos - Ball_SizeY/2) < Ball_Y_Min )  //Top Edge
+						Ball_Y_Pos = Ball_Y_Min+Ball_SizeY/2;
+				 if ( (Ball_X_Pos + Ball_SizeX/2) > Ball_X_Max )  // Right Edge
+						Ball_X_Pos = Ball_X_Max-Ball_SizeX/2;
+				 if ( (Ball_X_Pos - Ball_SizeX/2) < Ball_X_Min )  // Left Edge
+						Ball_X_Pos = Ball_X_Min+Ball_SizeX/2;	
+			//Set Jump
+			if (jumping == 1) begin
+					if((Ball_Y_Pos>JUMP_HEIGHT)&&(falling == 0))
+							Ball_Y_Motion <= -1;
+						
+					if (falling == 1) 
+							Ball_Y_Motion <= 1;
+					if	((falling == 1)&& Ball_Y_Pos == Ball_Y_center) begin
+							falling = 0;
+							jumping = 0;
+					end
+			end
+						
+				 case (keycode)
+					
+					8'h04 : begin
+
+								Ball_X_Motion <= -1.5;//A
+								Ball_Y_Motion<= 0;
+							  end
+					        
+					8'h07 : begin
+								
+					        Ball_X_Motion <= 1.5;//D
+							  Ball_Y_Motion <= 0;
+							  end
+
+							  
+//					8'h16 : begin
+//
+//					        Ball_Y_Motion <= 1.5;//S
+//							  Ball_X_Motion <= 0;
+//							 end
+							  
+					8'h1A : begin
+//					        Ball_Y_Motion <= -1.5;//W
+//							  Ball_X_Motion <= 0;
+								if(!jumping) begin
+									assign jumping = 1;
+								end
+							 end	  
+					default: begin
+					        Ball_Y_Motion <= 0;//Stay still
+							  Ball_X_Motion <= 0;
+								end
+						
+			   endcase
+				 
+				 if ( (Ball_Y_Pos + Ball_SizeY/2) > Ball_Y_Max )  //Bottom
+					   Ball_Y_Motion <= 10'd0;				 
+					  
+				 if ( (Ball_Y_Pos - Ball_SizeY/2) < Ball_Y_Min )  //Top
+					   Ball_Y_Motion <= 10'd0;
+					  
+				 if ( (Ball_X_Pos + Ball_SizeX/2) > Ball_X_Max )  //Right
+					  Ball_X_Motion <= 10'd0;  
+					  
+				 if ( (Ball_X_Pos - Ball_SizeX/2) < Ball_X_Min )  //Left
+					  Ball_X_Motion <= 10'd0;
+
+					  
+					  
+				 Ball_Y_Pos <= (Ball_Y_Pos + Ball_Y_Motion);  // Update ball position
+				 Ball_X_Pos <= (Ball_X_Pos + Ball_X_Motion);
+			
+			
+
+      
+			
+		end  
+    end
+       
+    assign BallX = Ball_X_Pos;
+   
+    assign BallY = Ball_Y_Pos;
+   
+    assign BallSX = Ball_SizeX;
+	 assign BallSY = Ball_SizeY;
+    
+
+endmodule
