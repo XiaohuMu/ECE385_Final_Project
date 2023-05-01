@@ -65,7 +65,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [9:0] drawxsig, drawysig, ballxsig, ballysig, ballsizesigx, ballsizesigy;
 	logic [7:0] Red, Blue, Green;
 	logic [7:0] keycode;
-
+	logic [3:0] status;
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -165,16 +165,21 @@ vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
 												             //   but the video DAC on the DE2 board requires an input for it.
 												  .DrawX(drawxsig),     // horizontal coordinate
 								              .DrawY(drawysig) ); 
+
+
 Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
             .BallX(ballxsig), 
 				.BallY(ballysig), 
 				.BallSX(ballsizesigx),
-				.BallSY(ballsizesigy));
+				.BallSY(ballsizesigy),
+				.BallStatus(status));
 
 	
-player_mapper color1(.vga_clk(VGA_Clk),	
+
+player_mapper color1(.vga_clk(VGA_Clk),
+							.BallStatus(status),
 							.BallX(ballxsig), 
 							.BallY(ballysig), 
 							.DrawX(drawxsig), 
@@ -184,5 +189,5 @@ player_mapper color1(.vga_clk(VGA_Clk),
 							.blank(blank),
                      .Red(Red), 
 							.Green(Green), 
-							.Blue(Blue) );				
+							.Blue(Blue) );					
 endmodule
