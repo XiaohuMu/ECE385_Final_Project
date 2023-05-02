@@ -170,22 +170,22 @@ vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
 Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
-            .BallX(ballxsig), 
-				.BallY(ballysig), 
-				.BallSX(ballsizesigx),
-				.BallSY(ballsizesigy),
-				.BallStatus(status));
+            .PlayerX(ballxsig), 
+				.PlayerY(ballysig), 
+				.Player_Size_X(ballsizesigx),
+				.Player_Size_Y(ballsizesigy),
+				.Player_Status(status));
 
 	
 
 player_mapper color1(.vga_clk(VGA_Clk),
-							.BallStatus(status),
-							.BallX(ballxsig), 
-							.BallY(ballysig), 
+							.Player_Status(status),
+							.Player_X(ballxsig), 
+							.Player_Y(ballysig), 
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
-							.Ball_sizeX(ballsizesigx),
-							.Ball_sizeY(ballsizesigy),
+							.Player_SizeX(ballsizesigx),
+							.Player_SizeY(ballsizesigy),
 							.blank(blank),
                      .Red(Red), 
 							.Green(Green), 

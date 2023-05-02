@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(10M50DAF484) Path("C:/Users/muxia/Desktop/ECE385_Final_Project/Hollow_Knight/output_files/") File("Hollow_Knight.sof") MfrSpec(OpMask(1));
+		Device PartName(10M50DAF484) Path("C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/output_files/") File("Hollow_Knight.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
