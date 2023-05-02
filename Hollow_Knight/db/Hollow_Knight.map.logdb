@@ -1,3 +1,3 @@
 v1
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,player_mapper:color1|lpm_mult:Mult11|mult_fgs:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,player_mapper:color1|lpm_mult:Mult9|mult_fgs:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,player_mapper1:color1|lpm_mult:Mult19|mult_fgs:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,player_mapper1:color1|lpm_mult:Mult17|mult_fgs:auto_generated|mac_out2,

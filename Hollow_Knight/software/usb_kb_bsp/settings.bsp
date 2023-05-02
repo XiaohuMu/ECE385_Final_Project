@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 1, 2023 11:08:22 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1683000502452</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>May 2, 2023 2:38:07 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1683056287898</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\Users\muxia\desktop\ECE385_Final_Project\Hollow_Knight\software\usb_kb_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>C:\Users\muxia\Desktop\ECE385_Final_Project\Hollow_Knight\Hollow_Knightsoc.sopcinfo</SopcDesignFile>

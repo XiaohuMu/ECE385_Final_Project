@@ -66,6 +66,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [7:0] Red, Blue, Green;
 	logic [7:0] keycode;
 	logic [3:0] status;
+	logic inverse;
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -174,7 +175,8 @@ Player player1( .Reset(Reset_h),
 				.PlayerY(ballysig), 
 				.Player_Size_X(ballsizesigx),
 				.Player_Size_Y(ballsizesigy),
-				.Player_Status(status));
+				.Player_Status(status),
+				.Inverse(inverse));
 
 	
 
@@ -187,6 +189,7 @@ player_mapper color1(.vga_clk(VGA_Clk),
 							.Player_SizeX(ballsizesigx),
 							.Player_SizeY(ballsizesigy),
 							.blank(blank),
+							.Inverse(inverse),
                      .Red(Red), 
 							.Green(Green), 
 							.Blue(Blue) );					

@@ -1,10 +1,12 @@
 module  Player ( input Reset, frame_clk,
 					input [7:0] keycode,
                output [9:0]  PlayerX, PlayerY, Player_Size_X, Player_Size_Y, 
-					output [3:0]  Player_Status );
+					output [3:0]  Player_Status,
+					output Inverse);
     
     logic [9:0] Knight_X_Pos, Knight_X_Motion, Knight_Y_Pos, Knight_Y_Motion, Knight_SizeX, Knight_SizeY;
 	 logic [3:0] status; //0 is idle, 1 is walk, 2 is jump up, 3 for down
+	 logic Knight_Inverse; //0 is right, 1 is left
 	 
     parameter [9:0] Knight_X_Center=320;  // Center position on the X axis
     parameter [9:0] Knight_Y_Center=377;  // Center position on the Y axis
@@ -34,6 +36,7 @@ module  Player ( input Reset, frame_clk,
 				Knight_Y_Pos <= Knight_Y_Center;
 				Knight_X_Pos <= Knight_X_Center;
 				status <=0;
+				Knight_Inverse <= 0;
         end
            
         else 
@@ -63,6 +66,7 @@ module  Player ( input Reset, frame_clk,
 								Knight_X_Motion <= -1.5;//Left 
 								Knight_Y_Motion<= 0;
 								status <= 1;//walk
+								Knight_Inverse = 1;
 							  end
 					        
 					8'h4F : begin
@@ -70,6 +74,7 @@ module  Player ( input Reset, frame_clk,
 					        Knight_X_Motion <= 1.5;//Right
 							  Knight_Y_Motion <= 0;
 							  status <= 1;//walk
+							  Knight_Inverse = 0;
 							  end
 
 							  
@@ -147,6 +152,7 @@ module  Player ( input Reset, frame_clk,
     assign Player_Size_X = Knight_SizeX;
 	 assign Player_Size_Y = Knight_SizeY;
 	 assign Player_Status = status;
+	 assign Inverse = Knight_Inverse;
     
 
 endmodule

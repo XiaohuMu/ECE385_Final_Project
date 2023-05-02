@@ -1,9 +1,9 @@
-23:08:31 **** Incremental Build of configuration Nios II for project usb_kb ****
+14:38:20 **** Incremental Build of configuration Nios II for project usb_kb ****
 make all 
 Info: Building C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
 C:/intelFPGA_lite/18.1/nios2eds/bin/gnu/H-x86_64-mingw32/bin/make --no-print-directory -C C:/Users/muxia/desktop/ECE385_Final_Project/Hollow_Knight/software/usb_kb_bsp/
 [BSP build complete]
 [usb_kb build complete]
 
-23:08:32 Build Finished (took 906ms)
+14:38:21 Build Finished (took 802ms)
 
