@@ -181,6 +181,7 @@ Player player1( .Reset(Reset_h),
 	
 
 player_mapper color1(.vga_clk(VGA_Clk),
+							.frame_clk(VGA_VS),
 							.Player_Status(status),
 							.Player_X(ballxsig), 
 							.Player_Y(ballysig), 

@@ -1,4 +1,15 @@
 
+State Machine - |Hollow_Knight|player_mapper1:color1|state
+Name state.000000001 
+state.000000000 0 
+state.000000001 1 
+
+State Machine - |Hollow_Knight|player_mapper1:color1|color
+Name color.000000000 color.000000010 color.000000001 
+color.000000000 0 0 0 
+color.000000001 1 0 1 
+color.000000010 1 1 0 
+
 State Machine - |Hollow_Knight|Hollow_Knightsoc:u0|Hollow_Knightsoc_sdram:sdram|m_next
 Name m_next.010000000 m_next.000010000 m_next.000001000 m_next.000000001 
 m_next.000000001 0 0 0 0 
