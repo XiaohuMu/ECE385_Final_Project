@@ -1,5 +1,5 @@
 module  player_mapper1 ( input			 vga_clk, frame_clk,
-								input		 	 [3:0] Player_Status,
+								input		 	 [3:0] Player_Status,Player_Life,
 								input        [9:0] Player_X, Player_Y, DrawX, DrawY, Player_SizeX, Player_SizeY,
 								input			 blank, Inverse,
 								output logic [7:0]  Red, Green, Blue );
@@ -74,18 +74,34 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	logic [11:0] rom_address_at1;
 	logic [2:0] rom_q_at1;
 	logic [3:0] palette_red_at1, palette_green_at1, palette_blue_at1;
+	//Initialization of the knight attack1 inverted	
+	logic [11:0] rom_address_at1I;
+	logic [2:0] rom_q_at1I;
+	logic [3:0] palette_red_at1I, palette_green_at1I, palette_blue_at1I;
 	//Initialization of the knight attack2
 	logic [11:0] rom_address_at2;
 	logic [2:0] rom_q_at2;
 	logic [3:0] palette_red_at2, palette_green_at2, palette_blue_at2;
+	//Initialization of the knight attack2 inverted
+	logic [11:0] rom_address_at2I;
+	logic [2:0] rom_q_at2I;
+	logic [3:0] palette_red_at2I, palette_green_at2I, palette_blue_at2I;
 	//Initialization of the knight attack3
 	logic [11:0] rom_address_at3;
 	logic [2:0] rom_q_at3;
 	logic [3:0] palette_red_at3, palette_green_at3, palette_blue_at3;
+	//Initialization of the knight attack3 inverted
+	logic [11:0] rom_address_at3I;
+	logic [2:0] rom_q_at3I;
+	logic [3:0] palette_red_at3I, palette_green_at3I, palette_blue_at3I;
 	//Initialization of the knight attack4
 	logic [11:0] rom_address_at4;
 	logic [2:0] rom_q_at4;
 	logic [3:0] palette_red_at4, palette_green_at4, palette_blue_at4;
+	//Initialization of the knight attack4
+	logic [11:0] rom_address_at4I;
+	logic [2:0] rom_q_at4I;
+	logic [3:0] palette_red_at4I, palette_green_at4I, palette_blue_at4I;
 	
 	logic fclk;
 	logic negedge_vga_clk;
@@ -119,9 +135,13 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign rom_address_fall1I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 
 	assign rom_address_at1 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at1I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at2 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at2I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at3 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at3I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at4 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at4I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	
 
 	 
@@ -412,28 +432,28 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 						
 						if (Player_Status == 4 && Player_Inverse == 1) //Attack Right
 						begin 
-							if(state_at == 0 && (palette_red_at1!=4'hD))begin
-								Red = {palette_red_at1,4'h0};
-								Green = {palette_green_at1,4'h0};
-								Blue = {palette_blue_at1,4'h0};
+							if(state_at == 0 && (palette_red_at1I!=4'hD))begin
+								Red = {palette_red_at1I,4'h0};
+								Green = {palette_green_at1I,4'h0};
+								Blue = {palette_blue_at1I,4'h0};
 							end
 							
-							if(state_at == 1 && (palette_red_at2!=4'hD))begin
-								Red = {palette_red_at2,4'h0};
-								Green = {palette_green_at2,4'h0};
-								Blue = {palette_blue_at2,4'h0};
+							if(state_at == 1 && (palette_red_at2I!=4'hD))begin
+								Red = {palette_red_at2I,4'h0};
+								Green = {palette_green_at2I,4'h0};
+								Blue = {palette_blue_at2I,4'h0};
 							end
 							
-							if(state_at == 2 && (palette_red_at3 != 4'hD))begin
-								Red = {palette_red_at3,4'h0};
-								Green = {palette_green_at3,4'h0};
-								Blue = {palette_blue_at3,4'h0};
+							if(state_at == 2 && (palette_red_at3I != 4'hD))begin
+								Red = {palette_red_at3I,4'h0};
+								Green = {palette_green_at3I,4'h0};
+								Blue = {palette_blue_at3I,4'h0};
 							end
 							
-							if(state_at == 3 && (palette_red_at4 != 4'hD))begin
-								Red = {palette_red_at4,4'h0};
-								Green = {palette_green_at4,4'h0};
-								Blue = {palette_blue_at4,4'h0};
+							if(state_at == 3 && (palette_red_at4I != 4'hD))begin
+								Red = {palette_red_at4I,4'h0};
+								Green = {palette_green_at4I,4'h0};
+								Blue = {palette_blue_at4I,4'h0};
 							end
 							
 						end
@@ -692,4 +712,55 @@ knight_attack4_50_64_palette knight_attack4_50_64_palette (
 	.green (palette_green_at4),
 	.blue  (palette_blue_at4)
 );
+knight_attack1_50_64_IVT_rom knight_attack1_50_64_IVT_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at1I),
+	.q       (rom_q_at1I)
+);
+
+knight_attack1_50_64_IVT_palette knight_attack1_50_64_IVT_palette (
+	.index (rom_q_at1I),
+	.red   (palette_red_at1I),
+	.green (palette_green_at1I),
+	.blue  (palette_blue_at1I)
+);
+
+knight_attack2_50_64_IVT_rom knight_attack2_50_64_IVT_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at2I),
+	.q       (rom_q_at2I)
+);
+
+knight_attack2_50_64_IVT_palette knight_attack2_50_64_IVT_palette (
+	.index (rom_q_at2I),
+	.red   (palette_red_at2I),
+	.green (palette_green_at2I),
+	.blue  (palette_blue_at2I)
+);
+
+knight_attack3_50_64_IVT_rom knight_attack3_50_64_IVT_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at3I),
+	.q       (rom_q_at3I)
+);
+
+knight_attack3_50_64_IVT_palette knight_attack3_50_64_IVT_palette (
+	.index (rom_q_at3I),
+	.red   (palette_red_at3I),
+	.green (palette_green_at3I),
+	.blue  (palette_blue_at3I)
+);
+knight_attack4_50_64_IVT_rom knight_attack4_50_64_IVT_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at4I),
+	.q       (rom_q_at4I)
+);
+
+knight_attack4_50_64_IVT_palette knight_attack4_50_64_IVT_palette (
+	.index (rom_q_at4I),
+	.red   (palette_red_at4I),
+	.green (palette_green_at4I),
+	.blue  (palette_blue_at4I)
+);
+
 endmodule
