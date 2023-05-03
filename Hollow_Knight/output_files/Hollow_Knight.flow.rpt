@@ -1,5 +1,5 @@
 Flow report for Hollow_Knight
-Tue May 02 22:08:39 2023
+Wed May 03 08:21:20 2023
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,20 +40,20 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Tue May 02 22:08:39 2023       ;
+; Flow Status                        ; Successful - Wed May 03 08:21:20 2023       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; Hollow_Knight                               ;
 ; Top-level Entity Name              ; Hollow_Knight                               ;
 ; Family                             ; MAX 10                                      ;
 ; Device                             ; 10M50DAF484C7G                              ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 4,836 / 49,760 ( 10 % )                     ;
-;     Total combinational functions  ; 4,243 / 49,760 ( 9 % )                      ;
-;     Dedicated logic registers      ; 2,485 / 49,760 ( 5 % )                      ;
-; Total registers                    ; 2554                                        ;
+; Total logic elements               ; 5,006 / 49,760 ( 10 % )                     ;
+;     Total combinational functions  ; 4,413 / 49,760 ( 9 % )                      ;
+;     Dedicated logic registers      ; 2,498 / 49,760 ( 5 % )                      ;
+; Total registers                    ; 2567                                        ;
 ; Total pins                         ; 153 / 360 ( 43 % )                          ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 452,992 / 1,677,312 ( 27 % )                ;
+; Total memory bits                  ; 491,392 / 1,677,312 ( 29 % )                ;
 ; Embedded Multiplier 9-bit elements ; 4 / 288 ( 1 % )                             ;
 ; Total PLLs                         ; 1 / 4 ( 25 % )                              ;
 ; UFM blocks                         ; 0 / 1 ( 0 % )                               ;
@@ -66,7 +66,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 05/02/2023 22:06:18 ;
+; Start date & time ; 05/03/2023 08:19:24 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Hollow_Knight       ;
 +-------------------+---------------------+
@@ -77,7 +77,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+--------------------------------------------------------------------+---------------+-------------------+----------------+
 ; Assignment Name                     ; Value                                                              ; Default Value ; Entity Name       ; Section Id     ;
 +-------------------------------------+--------------------------------------------------------------------+---------------+-------------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 173927344776831.168308317813676                                    ; --            ; --                ; --             ;
+; COMPILER_SIGNATURE_ID               ; 173927344776831.168311996419124                                    ; --            ; --                ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Systemverilog Hdl                                                  ; --            ; --                ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (SystemVerilog)                                    ; <None>        ; --                ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                                               ; --            ; --                ; eda_simulation ;
@@ -111,12 +111,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:01:19     ; 1.0                     ; 5053 MB             ; 00:00:44                           ;
-; Fitter               ; 00:00:33     ; 1.6                     ; 6149 MB             ; 00:00:27                           ;
-; Assembler            ; 00:00:04     ; 1.0                     ; 4718 MB             ; 00:00:03                           ;
-; Timing Analyzer      ; 00:00:07     ; 2.4                     ; 4976 MB             ; 00:00:10                           ;
-; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4748 MB             ; 00:00:02                           ;
-; Total                ; 00:02:06     ; --                      ; --                  ; 00:01:26                           ;
+; Analysis & Synthesis ; 00:00:59     ; 1.0                     ; 5054 MB             ; 00:00:17                           ;
+; Fitter               ; 00:00:33     ; 1.8                     ; 6165 MB             ; 00:00:30                           ;
+; Assembler            ; 00:00:03     ; 1.0                     ; 4718 MB             ; 00:00:02                           ;
+; Timing Analyzer      ; 00:00:08     ; 3.3                     ; 4982 MB             ; 00:00:11                           ;
+; EDA Netlist Writer   ; 00:00:03     ; 1.0                     ; 4752 MB             ; 00:00:01                           ;
+; Total                ; 00:01:46     ; --                      ; --                  ; 00:01:01                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

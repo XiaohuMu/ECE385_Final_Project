@@ -252,6 +252,14 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name QIP_FILE knight_attack4_50_64/knight_attack4_50_64.qip
+set_global_assignment -name MIF_FILE knight_attack4_50_64/knight_attack4_50_64.mif
+set_global_assignment -name QIP_FILE knight_attack3_50_64/knight_attack3_50_64.qip
+set_global_assignment -name MIF_FILE knight_attack3_50_64/knight_attack3_50_64.mif
+set_global_assignment -name QIP_FILE knight_attack2_50_64/knight_attack2_50_64.qip
+set_global_assignment -name MIF_FILE knight_attack2_50_64/knight_attack2_50_64.mif
+set_global_assignment -name QIP_FILE knight_attack1_50_64/knight_attack1_50_64.qip
+set_global_assignment -name MIF_FILE knight_attack1_50_64/knight_attack1_50_64.mif
 set_global_assignment -name QIP_FILE knight_fall1_50_64_IVT/knight_fall1_50_64_IVT.qip
 set_global_assignment -name MIF_FILE knight_fall1_50_64_IVT/knight_fall1_50_64_IVT.mif
 set_global_assignment -name QIP_FILE knight_fall1_50_64/knight_fall1_50_64.qip

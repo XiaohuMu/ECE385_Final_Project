@@ -69,6 +69,24 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	logic [2:0] rom_q_fall1I;
 	logic [3:0] palette_red_fall1I, palette_green_fall1I, palette_blue_fall1I;
 	
+	
+	//Initialization of the knight attack1
+	logic [11:0] rom_address_at1;
+	logic [2:0] rom_q_at1;
+	logic [3:0] palette_red_at1, palette_green_at1, palette_blue_at1;
+	//Initialization of the knight attack2
+	logic [11:0] rom_address_at2;
+	logic [2:0] rom_q_at2;
+	logic [3:0] palette_red_at2, palette_green_at2, palette_blue_at2;
+	//Initialization of the knight attack3
+	logic [11:0] rom_address_at3;
+	logic [2:0] rom_q_at3;
+	logic [3:0] palette_red_at3, palette_green_at3, palette_blue_at3;
+	//Initialization of the knight attack4
+	logic [11:0] rom_address_at4;
+	logic [2:0] rom_q_at4;
+	logic [3:0] palette_red_at4, palette_green_at4, palette_blue_at4;
+	
 	logic fclk;
 	logic negedge_vga_clk;
 	// read from ROM on negedge, set pixel on posedge
@@ -76,9 +94,12 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign negedge_vga_clk = ~vga_clk;
 	// address into the rom = (x*xDim)/640 + ((y*yDim)/480) * xDim
 	// this will stretch out the sprite across the entire screen
-	logic [9:0] X,Y;
+	logic [9:0] X,Y,X1,Y1;
 	assign X = DrawX-(Player_X-24)+1;
 	assign Y = DrawY-(Player_Y-30)+1;
+	assign X1 = DrawX-(Player_X-28)+1;
+	assign Y1 = DrawY-(Player_Y-30)+1;
+	
 	assign rom_address_bg = ((DrawX * 320) / 640) + (((DrawY * 240) / 480) * 320);
 	assign rom_address_ki = ((X * 50) / 50) + (((Y * 64) / 64) * 50);	 
 	assign rom_address_kiI = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
@@ -95,19 +116,27 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign rom_address_fall = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_fall1 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_fallI = ((X * 50) / 50) + (((Y * 64) / 64) * 50);		
-	assign rom_address_fall1I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);		
+	assign rom_address_fall1I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+
+	assign rom_address_at1 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at2 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at3 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_at4 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	
 
 	 
-	 logic ball_on, ball_on_jump, Player_Inverse;
+	 logic ball_on, ball_on_jump,  Player_Inverse;
 	 assign Player_Inverse = Inverse;
 	  
     int DistX, DistY, SizeX, SizeY, SizeX_jump, SizeY_jump;
 	 assign DistX = DrawX - Player_X;
     assign DistY = DrawY - Player_Y;
+	 
     assign SizeX = Player_SizeX;
 	 assign SizeY = Player_SizeY;
 	 assign SizeX_jump = 45; 
 	 assign SizeY_jump = SizeY;
+
 	 
 	  //Determine whether the ball is on the background
     always_comb
@@ -125,9 +154,11 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 			else 
             ball_on_jump = 1'b0;
      end
+	  
 
 
-	logic [7:0] Red_W, Green_W, Blue_W;
+	
+
 	logic [8:0] counter, color;
 	always_ff @ (posedge frame_clk )
 	begin: Walk_animation //Walk _animation
@@ -153,7 +184,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 			end
 	end
 
-	logic [7:0] Red_F, Green_F, Blue_F;
+
 	logic [8:0] counterf, state;
 	always_ff @ (posedge frame_clk )
 	begin: Fall_animation //Walk _animation
@@ -173,14 +204,46 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 				
 
 			end
-	end		
-
+	end	
+	
+	logic [8:0] counter_at, state_at;
+	always_ff @ (posedge frame_clk )
+	begin: Attack_animation //Walk _animation
+			
+			counter_at <= counter_at+1;
+			if (counter_at == 5) begin
+				
+				if(state_at == 0) begin
+					state_at  <= 1;
+					counter_at <= 0;
+				end
+				
+				else if(state_at == 1) begin
+					state_at <= 2;
+					counter_at <= 0;
+				end
+				
+				else if(state_at == 2)
+				begin 
+					state_at <= 3;
+					counter_at <= 0;
+				end
+				
+				else if(state_at == 3)
+				begin 
+					state_at <= 0;
+					counter_at <= 0;
+				end
+			end
+	end
+	
+	
     always_comb
     begin:RGB_Display//Display the image
 			
 			//Draw the image of knight
         if ((ball_on == 1'b1)&&((Player_Status==1)||(Player_Status==0))) 
-        begin 
+        begin: Draw_walk_idle_attack3
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
 				Blue = {palette_blue_bg,4'h0};
@@ -255,27 +318,30 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 				end    
         end 
 		  
+		
+		
 		else if ((ball_on_jump == 1'b1)
-		&&((Player_Status==2)||(Player_Status==3)))
-		begin
+		&&((Player_Status==2)||(Player_Status==3)
+		||(Player_Status == 4)))
+		begin: Draw_jump_attack1
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
 				Blue = {palette_blue_bg,4'h0};
 				
 				if (blank)  begin 
-						if (Player_Status == 2 && (palette_red_jp!=4'hD) && Player_Inverse == 0) begin //jump
+						if (Player_Status == 2 && (palette_red_jp!=4'hD) && Player_Inverse == 0) begin //jump Right
 						Red = {palette_red_jp,4'h0};
 						Green = {palette_green_jp,4'h0};
 						Blue = {palette_blue_jp,4'h0};
 						end
 						
-						if (Player_Status == 2 && (palette_red_jpI!=4'hD) && Player_Inverse == 1) begin //jump
+						if (Player_Status == 2 && (palette_red_jpI!=4'hD) && Player_Inverse == 1) begin //jump Left
 						Red = {palette_red_jpI,4'h0};
 						Green = {palette_green_jpI,4'h0};
 						Blue = {palette_blue_jpI,4'h0};
 						end	
 						
-						if (Player_Status == 3 && Player_Inverse==0) //Fall Left
+						if (Player_Status == 3 && Player_Inverse==0) //Fall Right
 						begin 
 							if(state == 0 && palette_red_fall!=4'hD)
 							begin //fall Left
@@ -312,9 +378,68 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 							
 							
 						end
+						
+						
+						
+						if (Player_Status == 4 && Player_Inverse == 0) //Attack Right
+						begin 
+							if(state_at == 0 && (palette_red_at1!=4'hD))begin
+								Red = {palette_red_at1,4'h0};
+								Green = {palette_green_at1,4'h0};
+								Blue = {palette_blue_at1,4'h0};
+							end
+							
+							if(state_at == 1 && (palette_red_at2!=4'hD))begin
+								Red = {palette_red_at2,4'h0};
+								Green = {palette_green_at2,4'h0};
+								Blue = {palette_blue_at2,4'h0};
+							end
+							
+							if(state_at == 2 && (palette_red_at3 != 4'hD))begin
+								Red = {palette_red_at3,4'h0};
+								Green = {palette_green_at3,4'h0};
+								Blue = {palette_blue_at3,4'h0};
+							end
+							
+							if(state_at == 3 && (palette_red_at4 != 4'hD))begin
+								Red = {palette_red_at4,4'h0};
+								Green = {palette_green_at4,4'h0};
+								Blue = {palette_blue_at4,4'h0};
+							end
+							
+						end
+						
+						
+						if (Player_Status == 4 && Player_Inverse == 1) //Attack Right
+						begin 
+							if(state_at == 0 && (palette_red_at1!=4'hD))begin
+								Red = {palette_red_at1,4'h0};
+								Green = {palette_green_at1,4'h0};
+								Blue = {palette_blue_at1,4'h0};
+							end
+							
+							if(state_at == 1 && (palette_red_at2!=4'hD))begin
+								Red = {palette_red_at2,4'h0};
+								Green = {palette_green_at2,4'h0};
+								Blue = {palette_blue_at2,4'h0};
+							end
+							
+							if(state_at == 2 && (palette_red_at3 != 4'hD))begin
+								Red = {palette_red_at3,4'h0};
+								Green = {palette_green_at3,4'h0};
+								Blue = {palette_blue_at3,4'h0};
+							end
+							
+							if(state_at == 3 && (palette_red_at4 != 4'hD))begin
+								Red = {palette_red_at4,4'h0};
+								Green = {palette_green_at4,4'h0};
+								Blue = {palette_blue_at4,4'h0};
+							end
+							
+						end
 				end    			
 		end
-
+		
 
 
 			//Draw the image of the background
@@ -517,5 +642,54 @@ knight_fall1_50_64_IVT_palette knight_fall1_50_64_IVT_palette (
 	.green (palette_green_fall1I),
 	.blue  (palette_blue_fall1I)
 );
+knight_attack1_50_64_rom knight_attack1_50_64_rom (
+ .clock   (negedge_vga_clk),
+ .address (rom_address_at1),
+ .q       (rom_q_at1)
+);
 
+knight_attack1_50_64_palette knight_attack1_50_64_palette (
+ .index (rom_q_at1),
+ .red   (palette_red_at1),
+ .green (palette_green_at1),
+ .blue  (palette_blue_at1)
+);
+
+knight_attack2_50_64_rom knight_attack2_50_64_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at2),
+	.q       (rom_q_at2)
+);
+
+knight_attack2_50_64_palette knight_attack2_50_64_palette (
+	.index (rom_q_at2),
+	.red   (palette_red_at2),
+	.green (palette_green_at2),
+	.blue  (palette_blue_at2)
+);
+
+knight_attack3_50_64_rom knight_attack3_50_64_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at3),
+	.q       (rom_q_at3)
+);
+
+knight_attack3_50_64_palette knight_attack3_50_64_palette (
+	.index (rom_q_at3),
+	.red   (palette_red_at3),
+	.green (palette_green_at3),
+	.blue  (palette_blue_at3)
+);
+knight_attack4_50_64_rom knight_attack4_50_64_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_at4),
+	.q       (rom_q_at4)
+);
+
+knight_attack4_50_64_palette knight_attack4_50_64_palette (
+	.index (rom_q_at4),
+	.red   (palette_red_at4),
+	.green (palette_green_at4),
+	.blue  (palette_blue_at4)
+);
 endmodule

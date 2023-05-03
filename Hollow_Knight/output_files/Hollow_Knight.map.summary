@@ -1,15 +1,15 @@
-Analysis & Synthesis Status : Successful - Tue May 02 22:07:42 2023
+Analysis & Synthesis Status : Successful - Wed May 03 08:20:26 2023
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : Hollow_Knight
 Top-level Entity Name : Hollow_Knight
 Family : MAX 10
-Total logic elements : 5,196
-    Total combinational functions : 4,223
-    Dedicated logic registers : 2,528
-Total registers : 2528
+Total logic elements : 5,368
+    Total combinational functions : 4,393
+    Dedicated logic registers : 2,541
+Total registers : 2541
 Total pins : 153
 Total virtual pins : 0
-Total memory bits : 452,992
+Total memory bits : 491,392
 Embedded Multiplier 9-bit elements : 4
 Total PLLs : 1
 UFM blocks : 0
