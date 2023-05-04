@@ -168,6 +168,18 @@ vga_controller vga1(         			  .Clk(MAX10_CLK1_50),       // 50 MHz clock
 												  .DrawX(drawxsig),     // horizontal coordinate
 								              .DrawY(drawysig) ); 
 
+												  
+LIFE Life1( .Reset (Reset_h),
+				.frame_clk(VGA_VS),
+				.MaskX1(MX1),
+				.MaskX2(MX2),
+				.MaskX3(MX3),
+				.MaskX4(MX4),
+				.MaskX5(MX5),
+				.MaskY1(MY1),
+				.MaskSX(MSX),
+				.MaskSY(MSY)
+				);		
 
 Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
@@ -180,17 +192,6 @@ Player player1( .Reset(Reset_h),
 				.Player_Life(life),
 				.Inverse(inverse));
 
-LIFE Life1( .Reset (Reset_h),
-				.frame_clk(VGA_VS),
-				.MaskX1(MX1),
-				.MaskX2(MX2),
-				.MaskX3(MX3),
-				.MaskX4(MX4),
-				.MaskX5(MX5),
-				.MaskY1(MY1),
-				.MaskSX(MSX),
-				.MaskSY(MSY)
-				);		
 
 
 player_mapper color1(.vga_clk(VGA_Clk),
@@ -219,21 +220,6 @@ player_mapper color1(.vga_clk(VGA_Clk),
 							.Green(Green), 
 							.Blue(Blue) );
 
-//LIFE1 Life2( .Reset (Reset_h),
-//				.frame_clk(VGA_VS),
-//				.MaskX1(MX2),
-//				.MaskY1(MY2)
-//				);	
-//color_mapper color1(	.BallX(MX1), 
-//							.BallY(MY1), 
-//							.BallX1(MX2), 
-//							.BallY1(MY2),
-//							.DrawX(drawxsig), 
-//							.DrawY(drawysig), 
-//							.Ball_sizeX(MSX),
-//							.Ball_sizeY(MSY),
-//                     .Red(Red), 
-//							.Green(Green), 
-//							.Blue(Blue) );						
+				
 
 endmodule

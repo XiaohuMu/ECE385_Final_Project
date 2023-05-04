@@ -1,4 +1,9 @@
 
+State Machine - |Hollow_Knight|player_mapper1:color1|stated
+Name stated.000000001 
+stated.000000000 0 
+stated.000000001 1 
+
 State Machine - |Hollow_Knight|player_mapper1:color1|state_at
 Name state_at.000000011 state_at.000000010 state_at.000000001 state_at.000000000 
 state_at.000000000 0 0 0 0 

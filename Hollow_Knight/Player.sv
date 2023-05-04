@@ -5,7 +5,7 @@ module  Player ( input Reset, frame_clk,
 					output Inverse);
     
     logic [9:0] Knight_X_Pos, Knight_X_Motion, Knight_Y_Pos, Knight_Y_Motion, Knight_SizeX, Knight_SizeY;
-	 logic [3:0] status, life; //0 is idle, 1 is walk, 2 is jump up, 3 for down, 4 for attack
+	 logic [3:0] status, life; //0 is idle, 1 is walk, 2 is jump up, 3 for down, 4 for attack, 5 is dead
 	 logic Knight_Inverse; //0 is right, 1 is left
 	 logic fall;
 
@@ -49,9 +49,9 @@ module  Player ( input Reset, frame_clk,
 			 begin
 			   Knight_Y_Motion <= 10'd0; //Ball_Y_Step;
 				Knight_X_Motion <= 10'd0; //Ball_X_Step;
-				Knight_Y_Pos <= 215;
+				Knight_Y_Pos <= Knight_Y_Center;
 				Knight_X_Pos <= Knight_X_Center;
-				status <=4;
+				status <=5;
 				Knight_Inverse <= 0;
 				fall <=0;
 			 end
@@ -71,7 +71,11 @@ module  Player ( input Reset, frame_clk,
         begin 	
  
 				 if (( Knight_Y_Pos + Knight_SizeY/2) > Knight_Y_Max)  // Bottom Edge
-						Knight_Y_Pos = Knight_Y_Max-Knight_SizeY/2;	
+				 begin
+						Knight_Y_Pos = Knight_Y_Max-Knight_SizeY/2;
+						fall <= 1;
+						life <= life - 1;
+					end	
 						
 				 if(((Knight_Y_Pos + Knight_SizeY/2) > floor) 
 				 && ((Knight_X_Pos + Knight_SizeX/2)>=Left_Edge) 
@@ -188,13 +192,13 @@ module  Player ( input Reset, frame_clk,
 				end
 				
 				//Fall into the traps
-				 if(((Knight_Y_Pos + Knight_SizeY/2) > floor+6)// Two sides
+				 if(((Knight_Y_Pos + Knight_SizeY/2) >= floor)// Two sides
 				 &&(((Knight_X_Pos + Knight_SizeX/2)<=Left_Edge) || ((Knight_X_Pos - Knight_SizeX/2)>=Right_Edge))) begin
 						Knight_Y_Motion <= 10'd6;
 						Knight_X_Motion <= 10'd0;
-						fall <= 1;
+
 						status <= 3;
-						life <= life - 1;
+
 				 end
 				 if ( (Knight_Y_Pos + Knight_SizeY/2) > Knight_Y_Max )  //Bottom
 					   Knight_Y_Motion <= 10'd0;				 

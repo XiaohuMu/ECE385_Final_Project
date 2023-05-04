@@ -9,6 +9,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	logic [16:0] rom_address_bg;
 	logic [3:0] rom_q_bg;
 	logic [3:0] palette_red_bg, palette_green_bg, palette_blue_bg;
+
 	
 	//Initialization of the knight idle
 	logic [11:0] rom_address_ki;
@@ -122,6 +123,12 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	logic [1:0] rom_q_mask5;
 	logic [3:0] palette_red_mask5, palette_green_mask5, palette_blue_mask5;	
 	
+	logic [11:0] rom_address_dead1;
+	logic [2:0] rom_q_dead1;
+	logic [3:0] palette_red_dead1, palette_green_dead1, palette_blue_dead1;
+	logic [11:0] rom_address_dead2;
+	logic [2:0] rom_q_dead2;
+	logic [3:0] palette_red_dead2, palette_green_dead2, palette_blue_dead2;
 	
 	
 	
@@ -173,12 +180,16 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign rom_address_at3I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at4 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at4I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	
+	assign rom_address_dead2 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
+	assign rom_address_dead1 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 
 	assign rom_address_mask1 = ((mX1 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask2 = ((mX2 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask3 = ((mX3 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask4 = ((mX4 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask5 = ((mX5 * 12) / 12) + (((mY * 16) / 16) * 12);
+	 
 	 
 	 logic ball_on, ball_on_jump,  Player_Inverse;
 	 logic mask_on1, mask_on2,mask_on3, mask_on4, mask_on5;
@@ -294,7 +305,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 
 	logic [8:0] counterf, state;
 	always_ff @ (posedge frame_clk )
-	begin: Fall_animation //Walk _animation
+	begin: Fall_animation //Fall_animation
 			
 			counterf <= counterf+1;
 			if (counterf == 15) begin
@@ -315,7 +326,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	
 	logic [8:0] counter_at, state_at;
 	always_ff @ (posedge frame_clk )
-	begin: Attack_animation //Walk _animation
+	begin: Attack_animation //Attack_animation
 			
 			counter_at <= counter_at+1;
 			if (counter_at == 5) begin
@@ -347,6 +358,26 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	
 
 	
+	logic [8:0] counterd, stated;
+	always_ff @ (posedge frame_clk )
+	begin: Die_animation //Die_animation
+			
+			counterd <= counterd+1;
+			if (counterd == 5) begin
+				
+				if(stated == 0) begin
+					stated <= 1;
+					counterd <= 0;
+				end
+				
+				else if(stated == 1) begin
+					stated <= 0;
+					counterd <= 0;
+				end
+				
+
+			end
+	end	
 	always_comb
     begin:RGB_Display//Display the image
 			
@@ -434,7 +465,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 		
 		else if ((ball_on_jump == 1'b1)
 		&&((Player_Status==2)||(Player_Status==3)
-		||(Player_Status == 4)))
+		||(Player_Status == 4)||(Player_Status == 5)))
 		begin: Draw_jump_attack1
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
@@ -549,23 +580,52 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 							end
 							
 						end
+						//dead
+						if (Player_Status == 5 ) //dead
+						begin 
+							if(stated == 0 && (palette_red_dead1!=4'hD))begin
+								Red = {palette_red_dead1,4'h0};
+								Green = {palette_green_dead1,4'h0};
+								Blue = {palette_blue_dead1,4'h0};
+							end
+							
+							if(stated == 1 && (palette_red_dead2!=4'hD))begin
+								Red = {palette_red_dead2,4'h0};
+								Green = {palette_green_dead2,4'h0};
+								Blue = {palette_blue_dead2,4'h0};
+							end
+							
+							
+						end
 				end    			
 		end
 		
 		
 
 			
+			
 			else if(mask_on1 == 1)
 			begin
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
 				Blue = {palette_blue_bg,4'h0};
+				
 					if(blank) begin
 						if(palette_red_mask1 != 4'hC)
 						begin
-							Red = {palette_red_mask1,4'h0};
-							Green = {palette_green_mask1,4'h0};
-							Blue = {palette_blue_mask1,4'h0};
+							if(Player_Life !=0)
+							begin
+								Red = {palette_red_mask1,4'h0};
+								Green = {palette_green_mask1,4'h0};
+								Blue = {palette_blue_mask1,4'h0};
+							end
+							
+							else
+							begin
+								Red = 8'h10;
+								Green = 8'h20;
+								Blue = 8'h30;
+							end
 						end
 					end
 			end
@@ -575,12 +635,23 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
 				Blue = {palette_blue_bg,4'h0};
+				
 					if(blank) begin
 						if(palette_red_mask2 != 4'hC)
 						begin
-							Red = {palette_red_mask2,4'h0};
-							Green = {palette_green_mask2,4'h0};
-							Blue = {palette_blue_mask2,4'h0};
+							if(Player_Life !=0 && Player_Life !=1)
+							begin
+								Red = {palette_red_mask2,4'h0};
+								Green = {palette_green_mask2,4'h0};
+								Blue = {palette_blue_mask2,4'h0};
+							end
+							
+							else
+							begin
+								Red = 8'h10;
+								Green = 8'h20;
+								Blue = 8'h30;
+							end
 						end
 					end
 			end
@@ -590,15 +661,27 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 				Red = {palette_red_bg,4'h0};
 				Green = {palette_green_bg,4'h0};
 				Blue = {palette_blue_bg,4'h0};
+				
 					if(blank) begin
 						if(palette_red_mask3 != 4'hC)
 						begin
-							Red = {palette_red_mask3,4'h0};
-							Green = {palette_green_mask3,4'h0};
-							Blue = {palette_blue_mask3,4'h0};
+							if(Player_Life !=0 && Player_Life !=1 && Player_Life !=2 )
+							begin
+								Red = {palette_red_mask3,4'h0};
+								Green = {palette_green_mask3,4'h0};
+								Blue = {palette_blue_mask3,4'h0};
+							end
+						
+							else
+							begin
+								Red = 8'h10;
+								Green = 8'h20;
+								Blue = 8'h30;
+							end
 						end
 					end
 			end	
+			
 			else if(mask_on4 == 1)
 			begin
 				Red = {palette_red_bg,4'h0};
@@ -607,12 +690,24 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 					if(blank) begin
 						if(palette_red_mask4 != 4'hC)
 						begin
-							Red = {palette_red_mask4,4'h0};
-							Green = {palette_green_mask4,4'h0};
-							Blue = {palette_blue_mask4,4'h0};
+							if(Player_Life ==4 || Player_Life ==5 )
+							begin
+								Red = {palette_red_mask4,4'h0};
+								Green = {palette_green_mask4,4'h0};
+								Blue = {palette_blue_mask4,4'h0};
+							end
+							
+							else
+							begin
+								Red = 8'h10;
+								Green = 8'h20;
+								Blue = 8'h30;
+							end
 						end
 					end
-			end		
+					
+			end	
+			
 			else if(mask_on5 == 1)
 			begin
 				Red = {palette_red_bg,4'h0};
@@ -621,9 +716,19 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 					if(blank) begin
 						if(palette_red_mask5 != 4'hC)
 						begin
-							Red = {palette_red_mask5,4'h0};
-							Green = {palette_green_mask5,4'h0};
-							Blue = {palette_blue_mask5,4'h0};
+							if(Player_Life ==5)
+							begin
+								Red = {palette_red_mask5,4'h0};
+								Green = {palette_green_mask5,4'h0};
+								Blue = {palette_blue_mask5,4'h0};
+							end
+							
+							else
+							begin
+								Red = 8'h10;
+								Green = 8'h20;
+								Blue = 8'h30;
+							end
 						end
 					end
 			end
@@ -987,4 +1092,28 @@ HP_12_16_palette HP_12_16_palette5 (
 		.green (palette_green_mask5),
 		.blue  (palette_blue_mask5)
 );	
+knight_dead1_50_64_rom knight_dead1_50_64_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_dead1),
+	.q       (rom_q_dead1)
+);
+
+knight_dead1_50_64_palette knight_dead1_50_64_palette (
+	.index (rom_q_dead1),
+	.red   (palette_red_dead1),
+	.green (palette_green_dead1),
+	.blue  (palette_blue_dead1)
+);
+knight_dead2_50_64_rom knight_dead2_50_64_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_dead2),
+	.q       (rom_q_dead2)
+);
+
+knight_dead2_50_64_palette knight_dead2_50_64_palette (
+	.index (rom_q_dead2),
+	.red   (palette_red_dead2),
+	.green (palette_green_dead2),
+	.blue  (palette_blue_dead2)
+);
 endmodule
