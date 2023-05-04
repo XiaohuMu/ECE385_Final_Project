@@ -67,6 +67,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [7:0] keycode;
 	logic [3:0] status,life;
 	logic inverse;
+	logic [9:0] MX1,MX2,MX3, MX4, MX5, MY1, MSX, MSY;	
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -179,14 +180,35 @@ Player player1( .Reset(Reset_h),
 				.Player_Life(life),
 				.Inverse(inverse));
 
-	
+LIFE Life1( .Reset (Reset_h),
+				.frame_clk(VGA_VS),
+				.MaskX1(MX1),
+				.MaskX2(MX2),
+				.MaskX3(MX3),
+				.MaskX4(MX4),
+				.MaskX5(MX5),
+				.MaskY1(MY1),
+				.MaskSX(MSX),
+				.MaskSY(MSY)
+				);		
+
 
 player_mapper color1(.vga_clk(VGA_Clk),
 							.frame_clk(VGA_VS),
 							.Player_Status(status),
 							.Player_Life(life),
 							.Player_X(ballxsig), 
-							.Player_Y(ballysig), 
+							.Player_Y(ballysig),
+							
+							.MaskX1(MX1),
+							.MaskX2(MX2),
+							.MaskX3(MX3),
+							.MaskX4(MX4),
+							.MaskX5(MX5),
+							.MaskY1(MY1),
+							.MaskSX(MSX),
+							.MaskSY(MSY),
+							
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
 							.Player_SizeX(ballsizesigx),
@@ -195,5 +217,23 @@ player_mapper color1(.vga_clk(VGA_Clk),
 							.Inverse(inverse),
                      .Red(Red), 
 							.Green(Green), 
-							.Blue(Blue) );					
+							.Blue(Blue) );
+
+//LIFE1 Life2( .Reset (Reset_h),
+//				.frame_clk(VGA_VS),
+//				.MaskX1(MX2),
+//				.MaskY1(MY2)
+//				);	
+//color_mapper color1(	.BallX(MX1), 
+//							.BallY(MY1), 
+//							.BallX1(MX2), 
+//							.BallY1(MY2),
+//							.DrawX(drawxsig), 
+//							.DrawY(drawysig), 
+//							.Ball_sizeX(MSX),
+//							.Ball_sizeY(MSY),
+//                     .Red(Red), 
+//							.Green(Green), 
+//							.Blue(Blue) );						
+
 endmodule

@@ -1,6 +1,7 @@
 module  player_mapper ( input			 vga_clk, frame_clk,
 								input		 	 [3:0] Player_Status,Player_Life,
 								input        [9:0] Player_X, Player_Y, DrawX, DrawY, Player_SizeX, Player_SizeY,
+								input			 [9:0] MaskX1, MaskX2, MaskX3, MaskX4, MaskX5, MaskY1, MaskSX, MaskSY,
 								input			 blank, Inverse,
 								output logic [7:0]  Red, Green, Blue );
     
@@ -103,6 +104,28 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 	logic [2:0] rom_q_at4I;
 	logic [3:0] palette_red_at4I, palette_green_at4I, palette_blue_at4I;
 	
+	
+	//Initialization of the mask
+	logic [7:0] rom_address_mask1;
+	logic [1:0] rom_q_mask1;
+	logic [3:0] palette_red_mask1, palette_green_mask1, palette_blue_mask1;
+	logic [7:0] rom_address_mask2;
+	logic [1:0] rom_q_mask2;
+	logic [3:0] palette_red_mask2, palette_green_mask2, palette_blue_mask2;
+	logic [7:0] rom_address_mask3;
+	logic [1:0] rom_q_mask3;
+	logic [3:0] palette_red_mask3, palette_green_mask3, palette_blue_mask3;	
+	logic [7:0] rom_address_mask4;
+	logic [1:0] rom_q_mask4;
+	logic [3:0] palette_red_mask4, palette_green_mask4, palette_blue_mask4;	
+	logic [7:0] rom_address_mask5;
+	logic [1:0] rom_q_mask5;
+	logic [3:0] palette_red_mask5, palette_green_mask5, palette_blue_mask5;	
+	
+	
+	
+	
+	
 	logic fclk;
 	logic negedge_vga_clk;
 	// read from ROM on negedge, set pixel on posedge
@@ -115,6 +138,14 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 	assign Y = DrawY-(Player_Y-30)+1;
 	assign X1 = DrawX-(Player_X-28)+1;
 	assign Y1 = DrawY-(Player_Y-30)+1;
+	
+	logic [9:0] mX1,mX2,mX3,mX4,mX5, mY;
+	assign mX1 = DrawX-(MaskX1-5)+1;
+	assign mX2 = DrawX-(MaskX2-5)+1;
+	assign mX3 = DrawX-(MaskX3-5)+1;
+	assign mX4 = DrawX-(MaskX4-5)+1;
+	assign mX5 = DrawX-(MaskX5-5)+1;
+	assign mY = DrawY-(MaskY1-7)+1;
 	
 	assign rom_address_bg = ((DrawX * 320) / 640) + (((DrawY * 240) / 480) * 320);
 	assign rom_address_ki = ((X * 50) / 50) + (((Y * 64) / 64) * 50);	 
@@ -142,10 +173,15 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 	assign rom_address_at3I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at4 = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
 	assign rom_address_at4I = ((X * 50) / 50) + (((Y * 64) / 64) * 50);
-	
 
+	assign rom_address_mask1 = ((mX1 * 12) / 12) + (((mY * 16) / 16) * 12);
+	assign rom_address_mask2 = ((mX2 * 12) / 12) + (((mY * 16) / 16) * 12);
+	assign rom_address_mask3 = ((mX3 * 12) / 12) + (((mY * 16) / 16) * 12);
+	assign rom_address_mask4 = ((mX4 * 12) / 12) + (((mY * 16) / 16) * 12);
+	assign rom_address_mask5 = ((mX5 * 12) / 12) + (((mY * 16) / 16) * 12);
 	 
 	 logic ball_on, ball_on_jump,  Player_Inverse;
+	 logic mask_on1, mask_on2,mask_on3, mask_on4, mask_on5;
 	 assign Player_Inverse = Inverse;
 	  
     int DistX, DistY, SizeX, SizeY, SizeX_jump, SizeY_jump;
@@ -156,7 +192,16 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 	 assign SizeY = Player_SizeY;
 	 assign SizeX_jump = 45; 
 	 assign SizeY_jump = SizeY;
-
+	 
+	 int DistXm1,DistXm2,DistXm3,DistXm4,DistXm5, DistYm, SizeXm, SizeYm;
+	 assign DistXm1 = DrawX - MaskX1;
+	 assign DistXm2 = DrawX - MaskX2;
+	 assign DistXm3 = DrawX - MaskX3;
+	 assign DistXm4 = DrawX - MaskX4;
+	 assign DistXm5 = DrawX - MaskX5;
+    assign DistYm = DrawY - MaskY1;
+	 assign SizeXm = MaskSX;
+	 assign SizeYm = 15;
 	 
 	  //Determine whether the ball is on the background
     always_comb
@@ -174,11 +219,53 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 			else 
             ball_on_jump = 1'b0;
      end
-	  
+	 
+	 
+	 always_comb 
+    begin:mask1_on_proc
+				if((DistXm1*DistXm1<=SizeXm*SizeXm/4) &&(DistYm*DistYm<=SizeYm*SizeYm/4))
+					mask_on1 = 1;
 
+				else 
+					mask_on1 = 0;
+	 end
+	 
+	 always_comb 
+    begin:mask2_on_proc
+				if((DistXm2*DistXm2<=SizeXm*SizeXm/4) &&(DistYm*DistYm<=SizeYm*SizeYm/4))
+					mask_on2 = 1;
 
-	
+				else 
+					mask_on2 = 0;
+	 end
+	 
+	 always_comb
+    begin:mask3_on_proc
+				if((DistXm3*DistXm3<=SizeXm*SizeXm/4) &&(DistYm*DistYm<=SizeYm*SizeYm/4))
+					mask_on3 = 1;
 
+				else 
+					mask_on3 = 0;
+	 end
+	 
+	 always_comb
+    begin:mask4_on_proc
+				if((DistXm4*DistXm4<=SizeXm*SizeXm/4) &&(DistYm*DistYm<=SizeYm*SizeYm/4))
+					mask_on4 = 1;
+
+				else 
+					mask_on4 = 0;
+	 end 
+	 
+	 always_comb
+    begin:mask5_on_proc
+				if((DistXm5*DistXm5<=SizeXm*SizeXm/4) &&(DistYm*DistYm<=SizeYm*SizeYm/4))
+					mask_on5 = 1;
+
+				else 
+					mask_on5 = 0;
+	 end 
+	 
 	logic [8:0] counter, color;
 	always_ff @ (posedge frame_clk )
 	begin: Walk_animation //Walk _animation
@@ -258,8 +345,13 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 	end
 	
 	
-    always_comb
+
+	
+	always_comb
     begin:RGB_Display//Display the image
+			
+
+
 			
 			//Draw the image of knight
         if ((ball_on == 1'b1)&&((Player_Status==1)||(Player_Status==0))) 
@@ -460,8 +552,81 @@ module  player_mapper ( input			 vga_clk, frame_clk,
 				end    			
 		end
 		
+		
 
-
+			
+			else if(mask_on1 == 1)
+			begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+					if(blank) begin
+						if(palette_red_mask1 != 4'hC)
+						begin
+							Red = {palette_red_mask1,4'h0};
+							Green = {palette_green_mask1,4'h0};
+							Blue = {palette_blue_mask1,4'h0};
+						end
+					end
+			end
+			
+			else if(mask_on2 == 1)
+			begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+					if(blank) begin
+						if(palette_red_mask2 != 4'hC)
+						begin
+							Red = {palette_red_mask2,4'h0};
+							Green = {palette_green_mask2,4'h0};
+							Blue = {palette_blue_mask2,4'h0};
+						end
+					end
+			end
+			
+			else if(mask_on3 == 1)
+			begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+					if(blank) begin
+						if(palette_red_mask3 != 4'hC)
+						begin
+							Red = {palette_red_mask3,4'h0};
+							Green = {palette_green_mask3,4'h0};
+							Blue = {palette_blue_mask3,4'h0};
+						end
+					end
+			end	
+			else if(mask_on4 == 1)
+			begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+					if(blank) begin
+						if(palette_red_mask4 != 4'hC)
+						begin
+							Red = {palette_red_mask4,4'h0};
+							Green = {palette_green_mask4,4'h0};
+							Blue = {palette_blue_mask4,4'h0};
+						end
+					end
+			end		
+			else if(mask_on5 == 1)
+			begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+					if(blank) begin
+						if(palette_red_mask5 != 4'hC)
+						begin
+							Red = {palette_red_mask5,4'h0};
+							Green = {palette_green_mask5,4'h0};
+							Blue = {palette_blue_mask5,4'h0};
+						end
+					end
+			end
 			//Draw the image of the background
         else 
 			begin
@@ -762,5 +927,64 @@ knight_attack4_50_64_IVT_palette knight_attack4_50_64_IVT_palette (
 	.green (palette_green_at4I),
 	.blue  (palette_blue_at4I)
 );
+HP_12_16_rom HP_12_16_rom1 (
+		.clock   (negedge_vga_clk),
+		.address (rom_address_mask1),
+		.q       (rom_q_mask1)
+);
 
+HP_12_16_palette HP_12_16_palette1 (
+		.index (rom_q_mask1),
+		.red   (palette_red_mask1),
+		.green (palette_green_mask1),
+		.blue  (palette_blue_mask1)
+);	
+HP_12_16_rom HP_12_16_rom2 (
+		.clock   (negedge_vga_clk),
+		.address (rom_address_mask2),
+		.q       (rom_q_mask2)
+);
+
+HP_12_16_palette HP_12_16_palette2 (
+		.index (rom_q_mask2),
+		.red   (palette_red_mask2),
+		.green (palette_green_mask2),
+		.blue  (palette_blue_mask2)
+);	
+HP_12_16_rom HP_12_16_rom3 (
+		.clock   (negedge_vga_clk),
+		.address (rom_address_mask3),
+		.q       (rom_q_mask3)
+);
+
+HP_12_16_palette HP_12_16_palette3 (
+		.index (rom_q_mask3),
+		.red   (palette_red_mask3),
+		.green (palette_green_mask3),
+		.blue  (palette_blue_mask3)
+);	
+HP_12_16_rom HP_12_16_rom4 (
+		.clock   (negedge_vga_clk),
+		.address (rom_address_mask4),
+		.q       (rom_q_mask4)
+);
+
+HP_12_16_palette HP_12_16_palette4 (
+		.index (rom_q_mask4),
+		.red   (palette_red_mask4),
+		.green (palette_green_mask4),
+		.blue  (palette_blue_mask4)
+);	
+HP_12_16_rom HP_12_16_rom5 (
+		.clock   (negedge_vga_clk),
+		.address (rom_address_mask5),
+		.q       (rom_q_mask5)
+);
+
+HP_12_16_palette HP_12_16_palette5 (
+		.index (rom_q_mask5),
+		.red   (palette_red_mask5),
+		.green (palette_green_mask5),
+		.blue  (palette_blue_mask5)
+);	
 endmodule

@@ -1,0 +1,10 @@
+module  mask_mapper ( input			 vga_clk, frame_clk,
+								input		 	 [3:0] Player_Life,
+								input        [9:0] MaskX1, MaskY1, DrawX, DrawY, MaskSX, MaskSY,
+								input			 blank, 
+								output logic [7:0]  Red, Green, Blue );
+	logic [7:0] rom_address;
+	logic [1:0] rom_q;
+	logic [3:0] palette_red, palette_green, palette_blue;
+	
+endmodule

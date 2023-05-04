@@ -21,7 +21,7 @@ module  Player ( input Reset, frame_clk,
 	 parameter [9:0] floor=408;//floor
 	 parameter [9:0] Left_Edge=116;//Left Edge of the platform
 	 parameter [9:0] Right_Edge=523;//right Edge of the platform	
-	 parameter [4:0] Knight_Life = 2;
+	 parameter [4:0] Knight_Life = 5;
 	
 
 	 //Player is a rectangle
@@ -188,7 +188,7 @@ module  Player ( input Reset, frame_clk,
 				end
 				
 				//Fall into the traps
-				 if(((Knight_Y_Pos + Knight_SizeY/2) >= floor)// Two sides
+				 if(((Knight_Y_Pos + Knight_SizeY/2) > floor+6)// Two sides
 				 &&(((Knight_X_Pos + Knight_SizeX/2)<=Left_Edge) || ((Knight_X_Pos - Knight_SizeX/2)>=Right_Edge))) begin
 						Knight_Y_Motion <= 10'd6;
 						Knight_X_Motion <= 10'd0;

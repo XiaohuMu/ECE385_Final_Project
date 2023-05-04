@@ -1,0 +1,37 @@
+
+module  LIFE ( input Reset, frame_clk,
+               output [9:0]  BallX, BallY, BallS );
+    
+    logic [9:0] Ball_X_Pos, Ball_Y_Pos, Ball_SizeX, Ball_SizeY;
+	 
+    parameter [9:0] Ball_X_Center=320;  // Center position on the X axis
+    parameter [9:0] Ball_Y_Center=240;  // Center position on the Y axis
+
+
+    assign Life_SizeX = 30;  
+	 assign Life_SizeY = 62; 
+   
+    always_ff @ (posedge Reset or posedge frame_clk )
+    begin: Move_Ball
+        if (Reset)  // Asynchronous Reset
+        begin 
+            Ball_Y_Motion <= 10'd0; //Ball_Y_Step;
+				Ball_X_Motion <= 10'd0; //Ball_X_Step;
+				Ball_Y_Pos <= Ball_Y_Center;
+				Ball_X_Pos <= Ball_X_Center;
+        end
+           
+
+      
+			
+		end  
+    end
+       
+    assign BallX = Ball_X_Pos;
+   
+    assign BallY = Ball_Y_Pos;
+   
+    assign BallS = Ball_Size;
+    
+
+endmodule
