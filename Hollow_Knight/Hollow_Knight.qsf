@@ -252,6 +252,12 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name QIP_FILE mantis_escape_70_160/mantis_escape_70_160.qip
+set_global_assignment -name MIF_FILE mantis_escape_70_160/mantis_escape_70_160.mif
+set_global_assignment -name QIP_FILE mantis_idle2_54_160/mantis_idle2_54_160.qip
+set_global_assignment -name MIF_FILE mantis_idle2_54_160/mantis_idle2_54_160.mif
+set_global_assignment -name QIP_FILE mantis_idle1_54_160/mantis_idle1_54_160.qip
+set_global_assignment -name MIF_FILE mantis_idle1_54_160/mantis_idle1_54_160.mif
 set_global_assignment -name QIP_FILE knight_dead2_50_64/knight_dead2_50_64.qip
 set_global_assignment -name MIF_FILE knight_dead2_50_64/knight_dead2_50_64.mif
 set_global_assignment -name QIP_FILE knight_dead1_50_64/knight_dead1_50_64.qip
@@ -305,7 +311,6 @@ set_global_assignment -name MIF_FILE knight_idle_50_64/knight_idle_50_64.mif
 set_global_assignment -name SYSTEMVERILOG_FILE Playertest.sv
 set_global_assignment -name MIF_FILE background_320_240/background_320_240.mif
 set_global_assignment -name QIP_FILE background_320_240/background_320_240.qip
-set_global_assignment -name SYSTEMVERILOG_FILE font_rom.sv
 set_global_assignment -name QIP_FILE Hollow_Knightsoc/synthesis/Hollow_Knightsoc.qip
 set_global_assignment -name SYSTEMVERILOG_FILE Player.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Color_Mapper.sv
@@ -315,4 +320,6 @@ set_global_assignment -name SDC_FILE Hollow_Knight.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE Hollow_Knight.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Color_Mapper_Test.sv
 set_global_assignment -name SYSTEMVERILOG_FILE LIFE.sv
+set_global_assignment -name SYSTEMVERILOG_FILE NPC_Vertical.sv
+set_global_assignment -name SYSTEMVERILOG_FILE test_mapper.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

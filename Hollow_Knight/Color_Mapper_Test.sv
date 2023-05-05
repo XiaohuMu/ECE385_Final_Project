@@ -1,7 +1,9 @@
+
 module  player_mapper1 ( input			 vga_clk, frame_clk,
 								input		 	 [3:0] Player_Status,Player_Life,
 								input        [9:0] Player_X, Player_Y, DrawX, DrawY, Player_SizeX, Player_SizeY,
 								input			 [9:0] MaskX1, MaskX2, MaskX3, MaskX4, MaskX5, MaskY1, MaskSX, MaskSY,
+								input			 [9:0] EnemyV_X, EnemyV_Y, EnemyV_Size_X, EnemyV_Size_Y, Enemy_state, Enemy_state1,
 								input			 blank, Inverse,
 								output logic [7:0]  Red, Green, Blue );
     
@@ -130,7 +132,16 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	logic [2:0] rom_q_dead2;
 	logic [3:0] palette_red_dead2, palette_green_dead2, palette_blue_dead2;
 	
-	
+	//Initialization of the mantis idle
+	logic [13:0] rom_address_mi1;
+	logic [2:0] rom_q_mi1;
+	logic [3:0] palette_red_mi1, palette_green_mi1, palette_blue_mi1;
+	logic [13:0] rom_address_mi2;
+	logic [2:0] rom_q_mi2;
+	logic [3:0] palette_red_mi2, palette_green_mi2, palette_blue_mi2;
+	logic [13:0] rom_address_mi3;
+	logic [2:0] rom_q_mi3;
+	logic [3:0] palette_red_mi3, palette_green_mi3, palette_blue_mi3;
 	
 	
 	logic fclk;
@@ -140,11 +151,13 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign negedge_vga_clk = ~vga_clk;
 	// address into the rom = (x*xDim)/640 + ((y*yDim)/480) * xDim
 	// this will stretch out the sprite across the entire screen
-	logic [9:0] X,Y,X1,Y1;
+	logic [9:0] X,Y,X1,Y1,X2,Y2;
 	assign X = DrawX-(Player_X-24)+1;
 	assign Y = DrawY-(Player_Y-30)+1;
 	assign X1 = DrawX-(Player_X-28)+1;
 	assign Y1 = DrawY-(Player_Y-30)+1;
+	assign X2 = DrawX-(EnemyV_X-34)+1;
+	assign Y2 = DrawY-(EnemyV_Y-79)+1;
 	
 	logic [9:0] mX1,mX2,mX3,mX4,mX5, mY;
 	assign mX1 = DrawX-(MaskX1-5)+1;
@@ -189,10 +202,15 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 	assign rom_address_mask3 = ((mX3 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask4 = ((mX4 * 12) / 12) + (((mY * 16) / 16) * 12);
 	assign rom_address_mask5 = ((mX5 * 12) / 12) + (((mY * 16) / 16) * 12);
+	
+	assign rom_address_mi1 = ((X2 * 70) / 70) + (((Y2 * 160) / 160) * 70);
+	assign rom_address_mi2 = ((X2 * 70) / 70) + (((Y2 * 160) / 160) * 70);
+	assign rom_address_mi3 = ((X2 * 70) / 70) + (((Y2 * 160) / 160) * 70);
 	 
 	 
 	 logic ball_on, ball_on_jump,  Player_Inverse;
 	 logic mask_on1, mask_on2,mask_on3, mask_on4, mask_on5;
+	 logic npc_on1;
 	 assign Player_Inverse = Inverse;
 	  
     int DistX, DistY, SizeX, SizeY, SizeX_jump, SizeY_jump;
@@ -213,6 +231,12 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
     assign DistYm = DrawY - MaskY1;
 	 assign SizeXm = MaskSX;
 	 assign SizeYm = 15;
+	 
+	 int DistXn1, DistXn2, DistYn1, DistYn2, SizeXn1, SizeXn2, SizeYn1, SizeYn2;
+	 assign DistXn1 = DrawX - EnemyV_X;
+	 assign DistYn1 = DrawY - EnemyV_Y;
+	 assign SizeXn1 = EnemyV_Size_X;
+	 assign SizeYn1 = EnemyV_Size_Y;
 	 
 	  //Determine whether the ball is on the background
     always_comb
@@ -277,6 +301,16 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 					mask_on5 = 0;
 	 end 
 	 
+	always_comb
+    begin:npc_on_proc
+				if((DistXn1*DistXn1<=SizeXn1*SizeXn1/4) &&(DistYn1*DistYn1<=SizeYn1*SizeYn1/4))
+					npc_on1 = 1;
+
+				else 
+					npc_on1 = 0;
+	 end 
+	
+	
 	logic [8:0] counter, color;
 	always_ff @ (posedge frame_clk )
 	begin: Walk_animation //Walk _animation
@@ -553,7 +587,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 						end
 						
 						
-						if (Player_Status == 4 && Player_Inverse == 1) //Attack Right
+						if (Player_Status == 4 && Player_Inverse == 1) //Attack Left
 						begin 
 							if(state_at == 0 && (palette_red_at1I!=4'hD))begin
 								Red = {palette_red_at1I,4'h0};
@@ -603,7 +637,7 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 		
 
 			
-			
+			//Draw the HP Mask
 			else if(mask_on1 == 1)
 			begin
 				Red = {palette_red_bg,4'h0};
@@ -732,8 +766,36 @@ module  player_mapper1 ( input			 vga_clk, frame_clk,
 						end
 					end
 			end
-			//Draw the image of the background
-        else 
+
+        //Draw the image of the mantis
+		  else if(npc_on1 == 1'b1)
+		  begin
+				Red = {palette_red_bg,4'h0};
+				Green = {palette_green_bg,4'h0};
+				Blue = {palette_blue_bg,4'h0};
+
+					if (blank) begin
+							if(palette_red_mi1!=4'hE && Enemy_state1 == 0) begin
+								Red = {palette_red_mi1,4'h0};
+								Green = {palette_green_mi1,4'h0};
+								Blue = {palette_blue_mi1,4'h0};
+							end
+							if(palette_red_mi2!=4'hE && Enemy_state1 == 1) begin
+								Red = {palette_red_mi2,4'h0};
+								Green = {palette_green_mi2,4'h0};
+								Blue = {palette_blue_mi2,4'h0};
+							end
+							if(palette_red_mi3!=4'hE && (Enemy_state1 == 2 || Enemy_state1 == 3)) begin
+								Red = {palette_red_mi3,4'h0};
+								Green = {palette_green_mi3,4'h0};
+								Blue = {palette_blue_mi3,4'h0};
+							end
+					end
+		  end
+		  
+		  
+		  //Draw the image of the background
+		  else 
 			begin
 				Red = 8'h00;
 				Green = 8'h00;
@@ -1116,4 +1178,41 @@ knight_dead2_50_64_palette knight_dead2_50_64_palette (
 	.green (palette_green_dead2),
 	.blue  (palette_blue_dead2)
 );
+mantis_idle1_54_160_rom mantis_idle1_54_160_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_mi1),
+	.q       (rom_q_mi1)
+);
+
+mantis_idle1_54_160_palette mantis_idle1_54_160_palette (
+	.index (rom_q_mi1),
+	.red   (palette_red_mi1),
+	.green (palette_green_mi1),
+	.blue  (palette_blue_mi1)
+);
+mantis_idle2_54_160_rom mantis_idle2_54_160_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_mi2),
+	.q       (rom_q_mi2)
+);
+
+mantis_idle2_54_160_palette mantis_idle2_54_160_palette (
+	.index (rom_q_mi2),
+	.red   (palette_red_mi2),
+	.green (palette_green_mi2),
+	.blue  (palette_blue_mi2)
+);
+mantis_escape_70_160_rom mantis_escape_70_160_rom (
+	.clock   (negedge_vga_clk),
+	.address (rom_address_mi3),
+	.q       (rom_q_mi3)
+);
+
+mantis_escape_70_160_palette mantis_escape_70_160_palette (
+	.index (rom_q_mi3),
+	.red   (palette_red_mi3),
+	.green (palette_green_mi3),
+	.blue  (palette_blue_mi3)
+);
+
 endmodule

@@ -68,6 +68,7 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [3:0] status,life;
 	logic inverse;
 	logic [9:0] MX1,MX2,MX3, MX4, MX5, MY1, MSX, MSY;	
+	logic [9:0] enemyV_X, enemyV_Y, enemyV_SizeX, enemyV_SizeY, enemy_state, enemy_state1;
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -181,7 +182,7 @@ LIFE Life1( .Reset (Reset_h),
 				.MaskSY(MSY)
 				);		
 
-Player player1( .Reset(Reset_h),
+Player1 player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
             .PlayerX(ballxsig), 
@@ -194,7 +195,7 @@ Player player1( .Reset(Reset_h),
 
 
 
-player_mapper color1(.vga_clk(VGA_Clk),
+player_mapper1 color1(.vga_clk(VGA_Clk),
 							.frame_clk(VGA_VS),
 							.Player_Status(status),
 							.Player_Life(life),
@@ -210,16 +211,45 @@ player_mapper color1(.vga_clk(VGA_Clk),
 							.MaskSX(MSX),
 							.MaskSY(MSY),
 							
+							.EnemyV_X(enemyV_X),
+							.EnemyV_Y(enemyV_Y),
+							.EnemyV_Size_X(enemyV_SizeX),
+							.EnemyV_Size_Y(enemyV_SizeY),
+							.Enemy_state(enemy_state),
+							.Enemy_state1(enemy_state1),
+							
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
 							.Player_SizeX(ballsizesigx),
 							.Player_SizeY(ballsizesigy),
 							.blank(blank),
 							.Inverse(inverse),
-                     .Red(Red), 
+                   .Red(Red), 
 							.Green(Green), 
 							.Blue(Blue) );
 
-				
+NPC_Vertical NPCV1 ( .Reset(Reset_h), 
+							.frame_clk(VGA_VS),
+//					input [3:0]  Player_Status,
+					      .keycode(keycode),
+//					Enemy_LifeH,
+//					output Enemy_hurt,
+//					output [3:0] Enemy_LifeV,
+							.Enemy_X(enemyV_X), 
+							.Enemy_Y(enemyV_Y), 
+							.Enemy_Size_X(enemyV_SizeX),
+							.Enemy_state(enemy_state),
+							.Enemy_state1(enemy_state1),
+							.Enemy_Size_Y(enemyV_SizeY));	
+
+//test_mapper color1(	.BallX(enemyV_X), 
+//							.BallY(enemyV_Y), 
+//							.DrawX(drawxsig), 
+//							.DrawY(drawysig), 
+//							.Ball_sizeX(enemyV_SizeX),
+//							.Ball_sizeY(enemyV_SizeY),
+//                     .Red(Red), 
+//							.Green(Green), 
+//							.Blue(Blue) );							
 
 endmodule

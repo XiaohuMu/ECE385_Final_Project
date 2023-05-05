@@ -1,4 +1,18 @@
 
+State Machine - |Hollow_Knight|NPC_Vertical:NPCV1|state1
+Name state1.0000000011 state1.0000000010 state1.0000000001 state1.0000000000 state1.0000000100 
+state1.0000000000 0 0 0 0 0 
+state1.0000000001 0 0 1 1 0 
+state1.0000000010 0 1 0 1 0 
+state1.0000000011 1 0 0 1 0 
+state1.0000000100 0 0 0 1 1 
+
+State Machine - |Hollow_Knight|NPC_Vertical:NPCV1|state
+Name state.0000000000 state.0000000010 state.0000000001 
+state.0000000000 0 0 0 
+state.0000000001 1 0 1 
+state.0000000010 1 1 0 
+
 State Machine - |Hollow_Knight|player_mapper1:color1|stated
 Name stated.000000001 
 stated.000000000 0 

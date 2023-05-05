@@ -1,0 +1,45 @@
+
+module  NPC_Vertical ( input Reset, frame_clk,
+					input [3:0]  Enemy_LifeH,
+               output [9:0]  Enemy_X, Enemy_Y, Enemy_Size_X, Enemy_Size_Y,
+					output [3:0] Enemy_LifeV);
+    
+    logic [9:0] NPC_X_Pos, NPC_Y_Pos,NPC_SizeX, NPC_SizeY;
+	 logic [3:0] status, lifeV, lifeH, life; //0 is idle, 1 is up, 2 is left, 3 is right, 4 is down, 5 is dead
+    
+	 parameter [9:0] NPC_X_Center=324;  // Center position on the X axis
+    parameter [9:0] NPC_Y_Center=110;  // Center position on the Y axis
+	 parameter [3:0] NPC_Life = 10;
+
+
+	//10 from each other
+    assign NPC_SizeX = 54;  
+	 assign NPC_SizeY = 160; 
+    assign life = lifeV;
+	
+    always_ff @ (posedge Reset or posedge frame_clk )
+    begin: Move_Ball
+        if (Reset)  // Asynchronous Reset
+        begin 
+				NPC_X_Pos <= NPC_X_Center;
+				NPC_Y_Pos <= NPC_Y_Center;
+				status <= 0;
+				life <= NPC_Life;
+        end
+			
+		  else if (life == 0)
+		  begin
+				status <= 5;
+		  end
+			
+		  else
+		  begin
+				always_ff @ (posedge frame_clk)
+				begin
+				end
+		  end
+		  
+    end
+       
+
+endmodule

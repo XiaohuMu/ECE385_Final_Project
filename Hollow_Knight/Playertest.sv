@@ -33,7 +33,7 @@ module  Player1 ( input Reset, frame_clk,
    
     always_ff @ (posedge Reset or posedge frame_clk )
     begin: Move_Ball
-        if (Reset )  // Asynchronous Reset
+        if (Reset)  // Asynchronous Reset
         begin 
             Knight_Y_Motion <= 10'd0; //Ball_Y_Step;
 				Knight_X_Motion <= 10'd0; //Ball_X_Step;
