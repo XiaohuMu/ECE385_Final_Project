@@ -68,7 +68,8 @@ logic Reset_h, vssig, blank, sync, VGA_Clk;
 	logic [3:0] status,life;
 	logic inverse;
 	logic [9:0] MX1,MX2,MX3, MX4, MX5, MY1, MSX, MSY;	
-	logic [9:0] enemyV_X, enemyV_Y, enemyV_SizeX, enemyV_SizeY, enemy_state, enemy_state1;
+	logic [9:0] enemyV_X, enemyV_Y, enemyV_SizeX, enemyV_SizeY, enemy_state, enemy_state1, enemy_state2,enemy_stateH;
+	logic [9:0] enemyH_X, enemyH_Y, enemyH_SizeX, enemyH_SizeY;
 //=======================================================
 //  Structural coding
 //=======================================================
@@ -182,7 +183,7 @@ LIFE Life1( .Reset (Reset_h),
 				.MaskSY(MSY)
 				);		
 
-Player1 player1( .Reset(Reset_h),
+Player player1( .Reset(Reset_h),
 				.frame_clk(VGA_VS),
 				.keycode(keycode),
             .PlayerX(ballxsig), 
@@ -195,7 +196,7 @@ Player1 player1( .Reset(Reset_h),
 
 
 
-player_mapper1 color1(.vga_clk(VGA_Clk),
+player_mapper color1(.vga_clk(VGA_Clk),
 							.frame_clk(VGA_VS),
 							.Player_Status(status),
 							.Player_Life(life),
@@ -215,8 +216,16 @@ player_mapper1 color1(.vga_clk(VGA_Clk),
 							.EnemyV_Y(enemyV_Y),
 							.EnemyV_Size_X(enemyV_SizeX),
 							.EnemyV_Size_Y(enemyV_SizeY),
+							
+							.EnemyH_X(enemyH_X),
+							.EnemyH_Y(enemyH_Y),
+							.EnemyH_Size_X(enemyH_SizeX),
+							.EnemyH_Size_Y(enemyH_SizeY),
+							.Enemy_stateH(enemy_stateH),
+							
 							.Enemy_state(enemy_state),
 							.Enemy_state1(enemy_state1),
+							.Enemy_state2(enemy_state2),
 							
 							.DrawX(drawxsig), 
 							.DrawY(drawysig), 
@@ -224,14 +233,15 @@ player_mapper1 color1(.vga_clk(VGA_Clk),
 							.Player_SizeY(ballsizesigy),
 							.blank(blank),
 							.Inverse(inverse),
-                   .Red(Red), 
+                     .Red(Red), 
 							.Green(Green), 
 							.Blue(Blue) );
 
-NPC_Vertical NPCV1 ( .Reset(Reset_h), 
+NPC_V NPCV1 ( .Reset(Reset_h), 
 							.frame_clk(VGA_VS),
 //					input [3:0]  Player_Status,
 					      .keycode(keycode),
+							.Enemy_stateH(enemy_stateH),
 //					Enemy_LifeH,
 //					output Enemy_hurt,
 //					output [3:0] Enemy_LifeV,
@@ -240,14 +250,33 @@ NPC_Vertical NPCV1 ( .Reset(Reset_h),
 							.Enemy_Size_X(enemyV_SizeX),
 							.Enemy_state(enemy_state),
 							.Enemy_state1(enemy_state1),
+							.Enemy_state2(enemy_state2),
 							.Enemy_Size_Y(enemyV_SizeY));	
 
+NPC_H NPCH1 ( .Reset(Reset_h), 
+							.frame_clk(VGA_VS),
+							.Enemy_stateV(enemy_state),
+//							.Enemy_stateV2(enemy_state2),
+//					input [3:0]  Player_Status,
+//					Enemy_LifeH,
+//					output Enemy_hurt,
+//					output [3:0] Enemy_LifeV,
+							.Enemy_state(enemy_stateH),
+							.Enemy_X(enemyH_X), 
+							.Enemy_Y(enemyH_Y), 
+							.Enemy_Size_X(enemyH_SizeX),
+							.Enemy_Size_Y(enemyH_SizeY));	
+//
 //test_mapper color1(	.BallX(enemyV_X), 
 //							.BallY(enemyV_Y), 
 //							.DrawX(drawxsig), 
 //							.DrawY(drawysig), 
 //							.Ball_sizeX(enemyV_SizeX),
 //							.Ball_sizeY(enemyV_SizeY),
+//							.BallX1(enemyH_X), 
+//							.BallY1(enemyH_Y),
+//							.Ball_sizeX1(enemyH_SizeX),
+//							.Ball_sizeY1(enemyH_SizeY),							
 //                     .Red(Red), 
 //							.Green(Green), 
 //							.Blue(Blue) );							

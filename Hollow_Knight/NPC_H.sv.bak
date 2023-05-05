@@ -1,0 +1,108 @@
+
+module  NPC_H ( input Reset, frame_clk,
+//					input [3:0]  Player_Status,
+					input [9:0] Enemy_stateV
+//					Enemy_LifeH,
+//					output Enemy_hurt,
+//					output [3:0] Enemy_LifeV,
+					output [9:0]  Enemy_state,
+				   output [9:0]  Enemy_X, Enemy_Y, Enemy_Size_X, Enemy_Size_Y);
+					 
+    logic [9:0] NPC_X_Pos, NPC_Y_Pos, NPC_X_Motion, NPC_Y_Motion, NPC_SizeX, NPC_SizeY;
+	 //logic [3:0] status;
+	 //logic NPC_hurt;
+	 
+	 
+	 logic [9:0] state, stateV;
+	 logic start;
+	 logic [15:0] counter;
+//	 ,lifeV, lifeH, life; //0 is idle, 1 is up, 2 is left, 3 is right, 4 is down, 5 is dead
+
+	
+	
+	 parameter [9:0] NPC_X_Center=506;  // Center position on the X axis
+    parameter [9:0] NPC_Y_Center=360;  // Center position on the Y axis
+	 
+//	 parameter [3:0] NPC_Life = 10;
+
+	//10 from each other
+	 assign stateV = Enemy_stateV;
+    assign NPC_SizeX = 190;  
+	 assign NPC_SizeY = 96; 
+//  assign life = lifeV;
+	
+    always_ff @ (posedge Reset or posedge frame_clk )
+    begin: Move_Ball
+		  
+        if (Reset )
+//		  || Player_Status == 5)  // Asynchronous Reset
+        begin 
+				NPC_X_Pos <= NPC_X_Center;
+				NPC_Y_Pos <= NPC_Y_Center;
+				start <= 0;
+				state <= 0;
+				state1 <= 0;
+				state2 <=0;
+				counter1 <= 0;
+				counter2 <= 0;
+
+//				status <= 0;
+//				life <= NPC_Life;
+        end
+		  //dead
+		  
+//		  else if (life == 0)
+//		  begin
+//				status <= 5;
+//				
+//		  end
+			
+			
+			
+		  else
+		  begin
+					
+					if(stateV==2)
+					begin: NPC_Animation
+							//1 start move Left
+							counter <= counter +1;
+							if(counter1 == 40) begin
+										if(stateV == 2) 
+										begin
+											NPC_Y_Motion <= -10;//Move to the left
+											counter1 <=0 ;
+											state <= 1
+										end
+										
+										else if(state == 1) 
+										begin						//stop
+											NPC_Y_Motion <= 0;
+											NPC_X_Motion <= 0;										
+											state <= 2;
+										end
+								end
+							end
+							
+							
+
+					
+					else
+					begin
+						NPC_X_Motion <= 0;
+						NPC_Y_Motion <= 0;
+					end
+					
+					NPC_X_Pos <= NPC_X_Pos + NPC_X_Motion; 
+					NPC_Y_Pos <= NPC_Y_Pos + NPC_Y_Motion;
+		  end
+		  
+    end
+    
+	 assign Enemy_state = state; 
+	 assign Enemy_X = NPC_X_Pos;
+	 assign Enemy_Y = NPC_Y_Pos;
+	 assign Enemy_Size_X = NPC_SizeX;
+	 assign Enemy_Size_Y = NPC_SizeY;
+//	 assign Enemy_LifeV = life;
+	 
+endmodule

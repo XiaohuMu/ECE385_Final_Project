@@ -1,13 +1,32 @@
 
-State Machine - |Hollow_Knight|NPC_Vertical:NPCV1|state1
-Name state1.0000000011 state1.0000000010 state1.0000000001 state1.0000000000 state1.0000000100 
-state1.0000000000 0 0 0 0 0 
-state1.0000000001 0 0 1 1 0 
-state1.0000000010 0 1 0 1 0 
-state1.0000000011 1 0 0 1 0 
-state1.0000000100 0 0 0 1 1 
+State Machine - |Hollow_Knight|NPC_H:NPCH1|state
+Name state.0000000111 state.0000000110 state.0000000101 state.0000000100 state.0000000011 state.0000000010 state.0000000001 state.0000000000 
+state.0000000000 0 0 0 0 0 0 0 0 
+state.0000000001 0 0 0 0 0 0 1 1 
+state.0000000010 0 0 0 0 0 1 0 1 
+state.0000000011 0 0 0 0 1 0 0 1 
+state.0000000100 0 0 0 1 0 0 0 1 
+state.0000000101 0 0 1 0 0 0 0 1 
+state.0000000110 0 1 0 0 0 0 0 1 
+state.0000000111 1 0 0 0 0 0 0 1 
 
-State Machine - |Hollow_Knight|NPC_Vertical:NPCV1|state
+State Machine - |Hollow_Knight|NPC_V:NPCV1|state2
+Name state2.0000000011 state2.0000000010 state2.0000000001 state2.0000000000 
+state2.0000000000 0 0 0 0 
+state2.0000000001 0 0 1 1 
+state2.0000000010 0 1 0 1 
+state2.0000000011 1 0 0 1 
+
+State Machine - |Hollow_Knight|NPC_V:NPCV1|state1
+Name state1.0000000101 state1.0000000100 state1.0000000011 state1.0000000010 state1.0000000001 state1.0000000000 
+state1.0000000000 0 0 0 0 0 0 
+state1.0000000001 0 0 0 0 1 1 
+state1.0000000010 0 0 0 1 0 1 
+state1.0000000011 0 0 1 0 0 1 
+state1.0000000100 0 1 0 0 0 1 
+state1.0000000101 1 0 0 0 0 1 
+
+State Machine - |Hollow_Knight|NPC_V:NPCV1|state
 Name state.0000000000 state.0000000010 state.0000000001 
 state.0000000000 0 0 0 
 state.0000000001 1 0 1 

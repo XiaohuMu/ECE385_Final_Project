@@ -5,13 +5,13 @@ module mantis_idle2_54_160_palette (
 
 localparam [0:7][11:0] palette = {
 	{4'hE, 4'h1, 4'h2},
-	{4'h0, 4'h0, 4'h1},
-	{4'h3, 4'h4, 4'h6},
-	{4'hF, 4'hF, 4'hF},
-	{4'h0, 4'h0, 4'h0},
-	{4'hA, 4'h9, 4'hB},
 	{4'h1, 4'h2, 4'h4},
-	{4'h5, 4'h5, 4'h7}
+	{4'hA, 4'h9, 4'hB},
+	{4'h0, 4'h0, 4'h0},
+	{4'h5, 4'h5, 4'h7},
+	{4'hF, 4'hF, 4'hF},
+	{4'h3, 4'h4, 4'h6},
+	{4'h0, 4'h0, 4'h1}
 };
 
 assign {red, green, blue} = palette[index];
